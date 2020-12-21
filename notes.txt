@@ -1,1 +1,3 @@
 Should decide on a styling format to use.
+^^^^^^^^^
+will probably use similar styling as Finance

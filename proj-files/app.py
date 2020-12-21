@@ -12,6 +12,14 @@ app = Flask(__name__)
 # Ensure templates are auto-reloaded [from application.py in Finance]
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 
+# Ensure responses aren't cached [from application.py in Finance]
+@app.after_request
+def after_request(response):
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Expires"] = 0
+    response.headers["Pragma"] = "no-cache"
+    return response
+
 # Configure session to use filesystem (instead of signed cookies) [from application.py in Finance]
 app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.config["SESSION_PERMANENT"] = False
@@ -26,10 +34,10 @@ def index():
         return render_template("index.html")
     else:
         # gets number of traits
-        number = request.form.get('num')
+        count = int(request.form.get('num'))
         
         # checks for number higher than 0
-        if number <= 0:
+        if count <= 0:
             return render_template("error.html")
         
         # havnt done anything with the actual input yet

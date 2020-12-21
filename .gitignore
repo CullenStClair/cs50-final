@@ -361,3 +361,4 @@ MigrationBackup/
 
 /.vscode
 /env
+.env
