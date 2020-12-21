@@ -7,5 +7,13 @@
 {% endblock %}
 
 {% block main %}
-    To Do
+<!-- this is a form to get input from user for how many traits to work with -->
+    <form action='/' method='post' class='form'>
+        <div class='other'>
+            <input name='num' autofocus placeholder='How many traits?' type='number'>
+        </div>
+        <div class='other'>
+            <button type='submit' class='btn btn-outline-dark' >Submit</button>
+        </div>
+    </form>
 {% endblock %}

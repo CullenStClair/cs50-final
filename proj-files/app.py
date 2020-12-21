@@ -19,15 +19,26 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 # Default route
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def index():
-    return render_template("index.html")
+    # checks if request method is get or post
+    if request.method=="GET":
+        return render_template("index.html")
+    else:
+        # gets number of traits
+        number = request.form.get('num')
+        
+        # checks for number higher than 0
+        if number <= 0:
+            return render_template("error.html")
+        
+        # havnt done anything with the actual input yet
+        return "TODO"
 
 # Handle InternalServerError (unexpected error) [from application.py in Finance]
 def errorhandler(e):
     if not isinstance(e, HTTPException):
         e = InternalServerError()
-        i = 4
     return "Internal Server Error 500"
 
 # Listen for errors [from application.py in Finance]
