@@ -27,7 +27,6 @@ def index():
 def errorhandler(e):
     if not isinstance(e, HTTPException):
         e = InternalServerError()
-        i = 4
     return "Internal Server Error 500"
 
 # Listen for errors [from application.py in Finance]
