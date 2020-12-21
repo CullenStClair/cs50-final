@@ -21,8 +21,6 @@ Session(app)
 # Default route
 @app.route("/")
 def index():
-    n = 2
-    i = 10
     return render_template("index.html")
 
 # Handle InternalServerError (unexpected error) [from application.py in Finance]
