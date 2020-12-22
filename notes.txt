@@ -1,3 +1,9 @@
 Should decide on a styling format to use.
 ^^^^^^^^^
 will probably use similar styling as Finance - tbh i kind of want to do something with the background but im unsure what
+
+use 'he' to represent heterozygous, hr for homozygous recessive, and hd for homozygous dominant.
+
+so all the math ive done so far boils down to that you can do a punnett square for each trait seperately. for example two parents who are heterozygous for all traits have a 50% to
+produce an offspring which caries both the dominant and recessive genes for the first trait. within that 50% there is another 50% for those kids to have both the dominant and recessive
+genes for the second trait. this continues.
