@@ -46,14 +46,32 @@ def index():
 # Route where user inputs traits
 @app.route("/genes", methods=["GET", "POST"])
 def genes():
+    # retrieve passed argument 'count'
+    count = int(request.args['count'])
+
     # checks if request method is get or post
     if request.method == "GET":
-        # retrieve passed argument 'count'
-        count = int(request.args['count'])
         # render page, dynamic form size logic in genes.html
         return render_template("genes.html", count=count)
     else:
-        return "TODO"
+        # sets blank lists of dominant and recessive traits in session
+        session['traits_dom'] = []
+        session['traits_rec'] = []
+
+        # ensures all fields are full
+        for i in range(count):
+            if request.form.get(f'dominant{i}') == None or request.form.get(f'recessive{i}') == None:
+                return render_template("error.html")
+            else:
+                session['traits_dom'].append(request.form.get(f'dominant{i}'))
+                session['traits_rec'].append(request.form.get(f'recessive{i}'))
+        return redirect("")
+
+@app.route("/parents", methods=["GET", "POST"])
+def parents():
+    # checks for method
+    if request.method == "GET":
+        return render_template("parents.html")
 
 # Handle InternalServerError (unexpected error) [from application.py in Finance]
 def errorhandler(e):
