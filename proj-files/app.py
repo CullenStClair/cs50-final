@@ -55,10 +55,10 @@ def genes():
     # checks if request method is get or post
     if request.method == "GET":
         # check if count is not set (user came here directly)
-        try:
+        if count:
         # render page, dynamic form size logic in genes.html
             return render_template("genes.html", count=count)
-        except KeyError:
+        else:
             return render_template("error.html")
     else:
         # sets blank lists of dominant and recessive traits in session
@@ -80,9 +80,10 @@ def parents():
     # checks for method
     if request.method == "GET":
         # check is count is not set (user came here directly)
-        try:
-            return render_template("parents.html", count=session['count'])
-        except KeyError:
+        count = session['count']
+        if count:
+            return render_template("parents.html", count=count)
+        else:
             return render_template("error.html")
     else:
         # check notes
