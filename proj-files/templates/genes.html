@@ -16,13 +16,13 @@ Select Genes
             <div class="gene">
                 <span class="lead">Gene {{ i+1 }}</span>
                 <div class='form-group'>
-                    <input name='dominant{{ i+1 }}' autocomplete="off" placeholder='A' type='number' class="form-control">
+                    <input name='dominant{{ i+1 }}' autocomplete="off" placeholder='A' type='text' class="form-control">
                 </div>
                 <div class='form-group'>
-                    <input name='recessive{{ i+1 }}' autocomplete="off" placeholder='a' type='number' class="form-control">
+                    <input name='recessive{{ i+1 }}' autocomplete="off" placeholder='a' type='text' class="form-control">
                 </div>
             </div>
         {% endfor %}
-        <button type='submit' class='btn btn-primary'>Begin</button>
+        <button type='submit' class='btn btn-primary'>Calculate</button>
     </form>
 {% endblock %}
