@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block meta %}{% endblock %}
+
+{% block title %}
+Select Parents
+{% endblock %}
+
+{% block main %}
+    <form action='/parents' method='post' class='form' style="margin-bottom: 1%;">
+    {% for i in range(count)}
+        <div>
+            Trait {{ i }}:
+            <select name='p1t{{i}}'>
+                <option>Homozygous Dom</option>
+                <option>Homozygous Rec</option>
+                <option selected>Heterozygous</option>
+            </select>
+            x 
+            <select name='p2t{{i}}'>
+                <option>Homozygous Dom</option>
+                <option>Homozygous Rec</option>
+                <option selected>Heterozygous</option>
+            </select>
+        </div>
+    {% endfor %}
+        <button type='submit' class='btn btn-primary'>Calculate</button>
+    </form>
+{% endblock %}

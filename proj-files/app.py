@@ -33,8 +33,11 @@ def index():
     if request.method == "GET":
         return render_template("index.html")
     else:
-        # gets number of traits
+        # gets number of traits and puts into session
+        if not request.form.get('num'):
+            return render_template("error.html")
         count = int(request.form.get('num'))
+        session['count'] = count
         
         # checks for number higher than 0
         if count <= 0:
@@ -47,7 +50,7 @@ def index():
 @app.route("/genes", methods=["GET", "POST"])
 def genes():
     # retrieve passed argument 'count'
-    count = int(request.args['count'])
+    count = session['count']
 
     # checks if request method is get or post
     if request.method == "GET":
@@ -65,13 +68,17 @@ def genes():
             else:
                 session['traits_dom'].append(request.form.get(f'dominant{i}'))
                 session['traits_rec'].append(request.form.get(f'recessive{i}'))
-        return redirect("")
+        return redirect("/parents")
 
 @app.route("/parents", methods=["GET", "POST"])
 def parents():
     # checks for method
     if request.method == "GET":
-        return render_template("parents.html")
+        return render_template("parents.html", count=session['count'])
+    else:
+        parent1 = ''
+        parent2 = ''
+        return render_template("check.html", stuff=request.form.get("p1t1"))
 
 # Handle InternalServerError (unexpected error) [from application.py in Finance]
 def errorhandler(e):
