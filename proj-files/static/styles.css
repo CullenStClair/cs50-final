@@ -1,8 +1,18 @@
-.form
+/* dirived in part from cs50 Finance */
+
+main .form-control
 {
-    padding: 30px 100px;
+    /* center form controls */
+    display: inline-block;
+
+    /* override Bootstrap's default width */
+    width: auto;
 }
-.other
+
+main
 {
+    /* horizontally scrollbar if needed */
+    overflow-x: auto;
+
     text-align: center;
 }
