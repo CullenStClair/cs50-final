@@ -49,17 +49,19 @@ def index():
 # Route where user inputs traits
 @app.route("/genes", methods=["GET", "POST"])
 def genes():
+    # check if count is not set (user came here directly)
+    try:
+        session['count']
+    except KeyError:
+        return render_template("error.html")
+
     # retrieve count
     count = session['count']
 
     # checks if request method is get or post
     if request.method == "GET":
-        # check if count is not set (user came here directly)
-        if count:
         # render page, dynamic form size logic in genes.html
-            return render_template("genes.html", count=count)
-        else:
-            return render_template("error.html")
+        return render_template("genes.html", count=count)
     else:
         # sets blank lists of dominant and recessive traits in session
         session['traits_dom'] = []
@@ -79,12 +81,12 @@ def genes():
 def parents():
     # checks for method
     if request.method == "GET":
-        # check is count is not set (user came here directly)
-        count = session['count']
-        if count:
-            return render_template("parents.html", count=count)
-        else:
+        # check if count is not set (user came here directly)
+        try:
+            session['count']
+        except KeyError:
             return render_template("error.html")
+        return render_template("parents.html", count=session['count'])
     else:
         # check notes
         parent1 = ''
