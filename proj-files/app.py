@@ -66,6 +66,7 @@ def genes():
             if (not request.form.get(f'dominant{i}')) or (not request.form.get(f'recessive{i}')):
                 return render_template("error.html")
             else:
+                # adds traits to their respective lists
                 session['traits_dom'].append(request.form.get(f'dominant{i}'))
                 session['traits_rec'].append(request.form.get(f'recessive{i}'))
         return redirect("/parents")
@@ -76,6 +77,7 @@ def parents():
     if request.method == "GET":
         return render_template("parents.html", count=session['count'])
     else:
+        # check notes
         parent1 = ''
         parent2 = ''
         return render_template("check.html", stuff=request.form.get("p1t1"))
