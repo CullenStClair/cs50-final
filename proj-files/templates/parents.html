@@ -7,10 +7,10 @@ Select Parents
 {% endblock %}
 
 {% block main %}
-    <form action='/parents' method='post' class='form' style="margin-bottom: 1%;">
+    <form action='/parents' method='post' class='form'>
     {% for i in range(count) %}
-        <div>
-            Trait {{ i }}:
+        <div class="gene">
+            <span class="lead">Trait {{ i+1 }}:</span>
             <select name='p1t{{i}}'>
                 <option>Homozygous Dom</option>
                 <option>Homozygous Rec</option>

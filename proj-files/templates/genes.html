@@ -11,15 +11,15 @@ Select Genes
     <h1 id="header">Genetics Simulation</h2>
 
     <!-- a form with varying length to get user's dominant and recessive gene pairs -->
-    <form action='/' method='post' class='form' style="margin-bottom: 1%;">
+    <form action='/genes' method='post' class='form' style="margin-bottom: 1%;">
         {% for i in range(count) %}
             <div class="gene">
                 <span class="lead">Gene {{ i+1 }}</span>
                 <div class='form-group'>
-                    <input name='dominant{{ i+1 }}' autocomplete="off" placeholder='A' type='text' class="form-control">
+                    <input name='dominant{{ i }}' autocomplete="off" placeholder='A' type='text' class="form-control">
                 </div>
                 <div class='form-group'>
-                    <input name='recessive{{ i+1 }}' autocomplete="off" placeholder='a' type='text' class="form-control">
+                    <input name='recessive{{ i }}' autocomplete="off" placeholder='a' type='text' class="form-control">
                 </div>
             </div>
         {% endfor %}

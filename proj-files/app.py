@@ -44,12 +44,12 @@ def index():
             return render_template("error.html")
         
         # pass count to genes page, redirect
-        return redirect(url_for('.genes', count=count))
+        return redirect("/genes")
 
 # Route where user inputs traits
 @app.route("/genes", methods=["GET", "POST"])
 def genes():
-    # retrieve passed argument 'count'
+    # retrieve count
     count = session['count']
 
     # checks if request method is get or post
@@ -63,7 +63,7 @@ def genes():
 
         # ensures all fields are full
         for i in range(count):
-            if request.form.get(f'dominant{i}') == None or request.form.get(f'recessive{i}') == None:
+            if (not request.form.get(f'dominant{i}')) or (not request.form.get(f'recessive{i}')):
                 return render_template("error.html")
             else:
                 session['traits_dom'].append(request.form.get(f'dominant{i}'))
