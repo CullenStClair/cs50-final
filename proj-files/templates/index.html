@@ -3,15 +3,19 @@
 {% block meta %}{% endblock %}
 
 {% block title %}
-    Select Genes
+Select Gene Count
 {% endblock %}
 
 {% block main %}
-<!-- this is a form to get input from user for how many traits to work with -->
+    <!-- main header -->
+    <h1 id="header">Genetics Simulation</h2>
+
+    <!-- a form to get input from user for how many traits to work with -->
     <form action='/' method='post' class='form' style="margin-bottom: 1%;">
         <div class='form-group'>
-            <input name='num' autofocus autocomplete="off" placeholder='Number of traits?' type='number' class="form-control">
+            <input name='num' autofocus autocomplete="off" placeholder='How many traits?' type='number'
+                class="form-control">
         </div>
-            <button type='submit' class='btn btn-primary' >Begin</button>
+        <button type='submit' class='btn btn-primary'>Begin</button>
     </form>
 {% endblock %}

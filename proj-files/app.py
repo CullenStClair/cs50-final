@@ -2,7 +2,7 @@
 
 from tempfile import mkdtemp
 
-from flask import Flask, redirect, render_template, request, session
+from flask import Flask, redirect, render_template, request, session, url_for
 from flask_session import Session
 from werkzeug.exceptions import (HTTPException, InternalServerError, default_exceptions)
 
@@ -30,7 +30,7 @@ Session(app)
 @app.route("/", methods=["GET", "POST"])
 def index():
     # checks if request method is get or post
-    if request.method=="GET":
+    if request.method == "GET":
         return render_template("index.html")
     else:
         # gets number of traits
@@ -40,7 +40,19 @@ def index():
         if count <= 0:
             return render_template("error.html")
         
-        # havnt done anything with the actual input yet
+        # pass count to genes page, redirect
+        return redirect(url_for('.genes', count=count))
+
+# Route where user inputs traits
+@app.route("/genes", methods=["GET", "POST"])
+def genes():
+    # checks if request method is get or post
+    if request.method == "GET":
+        # retrieve passed argument 'count'
+        count = int(request.args['count'])
+        # render page, dynamic form size logic in genes.html
+        return render_template("genes.html", count=count)
+    else:
         return "TODO"
 
 # Handle InternalServerError (unexpected error) [from application.py in Finance]

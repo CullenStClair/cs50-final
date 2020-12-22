@@ -11,8 +11,19 @@ main .form-control
 
 main
 {
-    /* horizontally scrollbar if needed */
+    /* horizontal scrollbar if needed (only affects mobile)*/
     overflow-x: auto;
 
     text-align: center;
+}
+
+#header
+{
+    position: relative;
+    top: -20px;
+}
+
+.gene
+{
+    margin-bottom: 0.5%;
 }
