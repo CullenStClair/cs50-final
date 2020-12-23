@@ -119,9 +119,9 @@ def parents():
                 session['parents'][0]['p2'] = request.form.get('p2t0')
             else:
                 session['parents'].append({'p1': request.form.get(f'p1t{i}')})
-                session['parents'].append({'p2': request.form.get(f'p2t{i}')})
+                session['parents'][i]['p2'] = request.form.get(f'p2t{i}')
 
-        return error("Unimplemented", 501)
+        return redirect('/calculate')
 
 @app.route("/calculate", methods=["GET", "POST"])
 def calc():
@@ -134,7 +134,7 @@ def calc():
             data.append(chance(session['parents'][counter]['p1'], session['parents'][counter]['p2'], genotype['dom_s'], genotype['rec_s']))
             counter += 1
         # format data for export
-        return render_template("calc.html")
+        return render_template("calc.html", stuff=data)
     else:
         return error("Unimplemented", 501)
 

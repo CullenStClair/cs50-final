@@ -20,12 +20,12 @@ def chance(p1, p2, dom_s, rec_s):
                 # he + hd 
                 return {
                     'hd':[0.5, n1], 
-                    'he':[0.5, n3]
+                    'he':[0.5, n2]
                     }
             else:
                 # hd + hr
                 return {
-                    'he':[1, n3]
+                    'he':[1, n2]
                     }
         else:
             # hd + hd
@@ -37,13 +37,13 @@ def chance(p1, p2, dom_s, rec_s):
         # if other is he
         if (p1 == 'he' and p2 == 'he'):
             # he + he
-            return {'he': [0.5, n3],
-            'hr': [0.25, n2],
+            return {'he': [0.5, n2],
+            'hr': [0.25, n3],
             'hd': [0.25, n1]}
         else:
             # he + hr
-            return {'he': [0.5, n3],
-            'hr': [0.5, n2]}
+            return {'he': [0.5, n2],
+            'hr': [0.5, n3]}
     else:
         # hr + hr
-        return {'hr': [1, n2]}
+        return {'hr': [1, n3]}
