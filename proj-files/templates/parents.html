@@ -12,18 +12,18 @@ Select Parents
 
     <form action='/parents' method='post' class='form'>
     {% for i in range(count) %}
-        <div class="gene">
-            <span class="lead">Trait {{ i+1 }}: </span>
+        <span class="lead">Trait {{ i+1 }}: </span>
+        <div style="margin-bottom: 1%;">
             <select name='p1t{{i}}'>
-                <option>Homozygous Dom</option>
-                <option>Homozygous Rec</option>
-                <option selected>Heterozygous</option>
+                <option value="hd">Homozygous Dom</option>
+                <option value="hr">Homozygous Rec</option>
+                <option selected value="he">Heterozygous</option>
             </select>
             x 
             <select name='p2t{{i}}'>
-                <option>Homozygous Dom</option>
-                <option>Homozygous Rec</option>
-                <option selected>Heterozygous</option>
+                <option value="hd">Homozygous Dom</option>
+                <option value="hr">Homozygous Rec</option>
+                <option selected value="he">Heterozygous</option>
             </select>
         </div>
     {% endfor %}

@@ -91,8 +91,8 @@ def parents():
         return render_template("parents.html", count=session['count'])
     else:
         # check notes
-        parent1 = ''
-        parent2 = ''
+        parent1 = []
+        parent2 = []
         return render_template("check.html", stuff=request.form.get("p1t1"))
 
 # Handle InternalServerError (unexpected error) [from application.py in Finance]
