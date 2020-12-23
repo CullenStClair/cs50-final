@@ -1,62 +1,31 @@
-tbh i kind of want to do something with the background but im unsure what
-^^^^^^^^^^^^
-okay
+mult function(data):
+    # for each dict
+    chances = []
+    rowN = 1
+    for row in data:
+        for key, value in row.items():
+            for thisrow in data:
+                if rowN != len(data):
+                    thisgene = []
+                    for k, v in thisrow.items():
+                        c = value[0] * v[0]
+                        r = rowN
+                        h = key
+                        thisgene.append({'chance' : c, 'gene' : r, 'h' : h})
+                    chances.append(thisgene)
+                rowN += 1
+    return chances
 
-use 'he' to represent heterozygous, hr for homozygous recessive, and hd for homozygous dominant.
-^^^^^^^^^^^^
-i've set those values in the form. how will this be stored? do we need a list for each parent of their values for each trait?
+        [{'he': [0.5, 'Aa'], 'hr': [0.25, 'aa'], 'hd': [0.25, 'AA']}      
 
-so all the math ive done so far boils down to that you can do a punnett square for each trait seperately. for example two parents who are heterozygous for all traits have a 50% to
-produce an offspring which caries both the dominant and recessive genes for the first trait. within that 50% there is another 50% for those kids to have both the dominant and recessive
-genes for the second trait. this continues.
+----- 
+    for i in range(len(row1))
+        if next row has only 1 trait
+            row1[i[1]] * next row chance
+        elif has more than 1
+            chance1 = row1[i[1]] * next row chance[1]
+            chance2 = row1[i[1]] * next row chance[2]
+           chance3
 
 
 
-chance function (p1, p2, dom_s, rec_s): ex "Rr" x "Rr"
-    # format symbols
-
-    n1 = dom_s + dom_s
-
-    n2 = dom_s + rec_s
-
-    n3 = rec_s + rec_s
-    
-    # decide base case
-    if either parent is hd
-        if only 1 is hd
-            if other is he
-            # he + hd 
-                return {
-                    'hd':[0.5, n1], 
-                    'he':[0.5, n3]
-                    }
-            # hd + hr
-            else
-                return {
-                    'he':[1, n3]
-                    }
-        # hd + hd
-        else
-            return {
-                'hd': [1, n1]
-                }
-        
-    elif 1 is he
-        # he + he
-        if other is he 
-            return {'he': [0.5, n3],
-            'hr': [0.25, n2],
-            'hd': [0.25, n1]}
-        # he + hr
-        else 
-            return {'he': [0.5, n3],
-            'hr': [0.5, n2]}
-    # hr + hr
-    else
-        return {'hr': [1. n2]}
-    
-
-    
-    #  R R
-    r [Rr][Rr]
-    r [Rr][Rr]

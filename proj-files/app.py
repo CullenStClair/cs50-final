@@ -134,7 +134,7 @@ def calc():
             data.append(chance(session['parents'][counter]['p1'], session['parents'][counter]['p2'], genotype['dom_s'], genotype['rec_s']))
             counter += 1
         # format data for export
-        return render_template("calc.html", stuff=data)
+        return render_template("calc.html", stuff=mult(data))
     else:
         return error("Unimplemented", 501)
 

@@ -47,3 +47,6 @@ def chance(p1, p2, dom_s, rec_s):
     else:
         # hr + hr
         return {'hr': [1, n3]}
+
+def mult(data):
+    return None
