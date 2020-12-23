@@ -66,17 +66,21 @@ def genes():
         return render_template("genes.html", count=count)
     else:
         # sets blank lists of dominant and recessive traits in session
-        session['traits_dom'] = []
-        session['traits_rec'] = []
+        session['traits'] = [{}]
 
-        # ensures all fields are full
+        # ensures all proper usage of fields
         for i in range(count):
             if (not request.form.get(f'dominant{i}')) or (not request.form.get(f'recessive{i}')):
                 return error("Bad request: Missing trait.", 400)
+            elif not request.form.get(f'symbol{i}'):
+                return error("Bad request: Missing symbol.", 400)
             else:
                 # adds traits to their respective lists
-                session['traits_dom'].append(request.form.get(f'dominant{i}'))
-                session['traits_rec'].append(request.form.get(f'recessive{i}'))
+                session['traits'][i]['dom_n'] = request.form.get(f'dominant{i}')
+                session['traits'][i]['dom_s'] = request.form.get(f'symbol_dom{i}')
+                session['traits'][i]['rec_n'] = request.form.get(f'recessive{i}')
+                session['traits'][i]['rec_s'] = request.form.get(f'symbol_rec{i}')
+
         return redirect("/parents")
 
 @app.route("/parents", methods=["GET", "POST"])
@@ -91,24 +95,13 @@ def parents():
         return render_template("parents.html", count=session['count'])
     else:
         # check notes
-        parent1 = []
-        parent2 = []
+        session['parents'] = [{}]
         for i in range(session['count']):
-            # checks which traits are homo dom, homo rec, or hetero for parent 1
-            if request.form.get(f'p1t{i}') == 'hr':
-                parent1.append('hr')
-            elif request.form.get(f'p1t{i}') == 'he':
-                parent1.append('he')
-            elif request.form.get(f'p1t{i}') == 'hd':
-                parent1.append('hd')
-            # checks which traits are homo dom, homo rec, or hetero for parent 2
-            if request.form.get(f'p2t{i}') == 'hr':
-                parent2.append('hr')
-            elif request.form.get(f'p2t{i}') == 'he':
-                parent2.append('he')
-            elif request.form.get(f'p2t{i}') == 'hd':
-                parent2.append('hd')
-        return render_template("check.html", stuff=request.form.get("p1t1"))
+            # checks which traits are homo dom, homo rec, or hetero for parents
+            session['parents'][i]['p1'] = request.form.get(f'p1t{i}')
+            session['parents'][i]['p2'] = request.form.get(f'p2t{i}')
+
+        return error("Unimplemented", 501)
 
 # Handle InternalServerError (unexpected error) [from application.py in Finance]
 def errorhandler(e):
