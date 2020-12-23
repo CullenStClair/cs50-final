@@ -43,7 +43,7 @@ def index():
         
         # checks for number higher than 0
         if count <= 0:
-            return error("Bad request: Invalid number of genes.", 400)
+            return error("Bad request: Invalid number of genes.", 403)
         
         # pass count to genes page, redirect
         return redirect("/genes")
