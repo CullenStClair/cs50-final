@@ -2,10 +2,16 @@
 
 {% block meta %}{% endblock %}
 
-{% block title %} get got {% endblock %}
+{% block title %} Error {{ code }} {% endblock %}
 
 {% block main %}
-<!-- this was supposed to be funny but whatever -->
-<iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-<a href='index.html'>Go To Start</a>
+    <!-- main header -->
+    <h1 id="header" style="margin-bottom: -1%">Error {{ code }}</h1>
+    <!-- error message -->
+    <div class="lead" style="margin-bottom: 1.5%;">
+        Something went wrong:<br>
+        "{{ message }}"
+    </div>
+    <!-- return button -->
+    <button class="btn btn-primary" onclick="location.href='/';">Return to start</button>
 {% endblock %}

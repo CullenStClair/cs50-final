@@ -6,6 +6,8 @@ from flask import Flask, redirect, render_template, request, session, url_for
 from flask_session import Session
 from werkzeug.exceptions import (HTTPException, InternalServerError, default_exceptions)
 
+from helpers import error
+
 # Configure Flask application
 app = Flask(__name__)
 
@@ -35,13 +37,13 @@ def index():
     else:
         # gets number of traits and puts into session
         if not request.form.get('num'):
-            return render_template("error.html")
+            return error("Bad request: Please enter a number of genes.", 400)
         count = int(request.form.get('num'))
         session['count'] = count
         
         # checks for number higher than 0
         if count <= 0:
-            return render_template("error.html")
+            return error("Bad request: Invalid number of genes.", 400)
         
         # pass count to genes page, redirect
         return redirect("/genes")
@@ -53,7 +55,7 @@ def genes():
     try:
         session['count']
     except KeyError:
-        return render_template("error.html")
+        return error("Bad request: Start at the beginning.", 400)
 
     # retrieve count
     count = session['count']
@@ -70,7 +72,7 @@ def genes():
         # ensures all fields are full
         for i in range(count):
             if (not request.form.get(f'dominant{i}')) or (not request.form.get(f'recessive{i}')):
-                return render_template("error.html")
+                return error("Bad request: Missing trait.", 400)
             else:
                 # adds traits to their respective lists
                 session['traits_dom'].append(request.form.get(f'dominant{i}'))
@@ -85,7 +87,7 @@ def parents():
         try:
             session['count']
         except KeyError:
-            return render_template("error.html")
+            return error("Bad request: Start at the beginning.", 400)
         return render_template("parents.html", count=session['count'])
     else:
         # check notes
