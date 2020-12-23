@@ -43,7 +43,7 @@ def index():
         
         # checks for number higher than 0
         if count <= 0:
-            return error("Bad request: Invalid number of genes.", 403)
+            return error("Forbidden: Invalid number of genes.", 403)
         
         # pass count to genes page, redirect
         return redirect("/genes")
@@ -99,7 +99,7 @@ def parents():
 def errorhandler(e):
     if not isinstance(e, HTTPException):
         e = InternalServerError()
-    return "Internal Server Error 500"
+    return error("Internal Server Error", 500)
 
 # Listen for errors [from application.py in Finance]
 for code in default_exceptions:
