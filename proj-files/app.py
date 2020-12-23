@@ -68,19 +68,32 @@ def genes():
         # sets blank lists of dominant and recessive traits in session
         session['traits'] = [{}]
 
-        # ensures all proper usage of fields
+        # ensure proper usage of all fields\
         for i in range(count):
             if (not request.form.get(f'dominant{i}')) or (not request.form.get(f'recessive{i}')):
                 return error("Bad request: Missing trait.", 400)
-            elif not request.form.get(f'symbol{i}'):
+            elif (not request.form.get(f'symbol_dom{i}')) or (not request.form.get(f'symbol_rec{i}')):
                 return error("Bad request: Missing symbol.", 400)
             else:
                 # adds traits to their respective lists
-                session['traits'][i]['dom_n'] = request.form.get(f'dominant{i}')
-                session['traits'][i]['dom_s'] = request.form.get(f'symbol_dom{i}')
-                session['traits'][i]['rec_n'] = request.form.get(f'recessive{i}')
-                session['traits'][i]['rec_s'] = request.form.get(f'symbol_rec{i}')
-
+                if i > 25:
+                    session['traits'][i]['dom_n'] = request.form.get(f'dominant{i}')
+                    session['traits'][i]['dom_s'] = request.form.get(f'symbol_dom{i}') + str(i - 25)
+                    session['traits'][i]['rec_n'] = request.form.get(f'recessive{i}')
+                    session['traits'][i]['rec_s'] = request.form.get(f'symbol_rec{i}') + str(i - 25)
+                else:
+                    if not len(session['traits'][0]):
+                        session['traits'][0]['dom_n'] = request.form.get('dominant0')
+                        session['traits'][0]['dom_s'] = request.form.get('symbol_dom0')
+                        session['traits'][0]['rec_n'] = request.form.get('recessive0')
+                        session['traits'][0]['rec_s'] = request.form.get('symbol_rec0')
+                    else:
+                        session['traits'].append({
+                            'dom_n': request.form.get(f'dominant{i}'),
+                            'dom_s': request.form.get(f'symbol_dom{i}'),
+                            'rec_n': request.form.get(f'recessive{i}'),
+                            'rec_s': request.form.get(f'symbol_rec{i}')
+                        })
         return redirect("/parents")
 
 @app.route("/parents", methods=["GET", "POST"])
