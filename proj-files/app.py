@@ -103,11 +103,11 @@ def parents():
                 parent1.append('hd')
             # checks which traits are homo dom, homo rec, or hetero for parent 2
             if request.form.get(f'p2t{i}') == 'hr':
-                parent1.append('hr')
+                parent2.append('hr')
             elif request.form.get(f'p2t{i}') == 'he':
-                parent1.append('he')
+                parent2.append('he')
             elif request.form.get(f'p2t{i}') == 'hd':
-                parent1.append('hd')
+                parent2.append('hd')
         return render_template("check.html", stuff=request.form.get("p1t1"))
 
 # Handle InternalServerError (unexpected error) [from application.py in Finance]
