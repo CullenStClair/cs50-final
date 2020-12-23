@@ -1,12 +1,13 @@
 # Copyright Cullen St. Clair and Kamran Yaghoubian 2020
 
+from decimal import *
 from tempfile import mkdtemp
 
 from flask import Flask, redirect, render_template, request, session, url_for
 from flask_session import Session
 from werkzeug.exceptions import (HTTPException, InternalServerError, default_exceptions)
 
-from helpers import error
+from helpers import *
 
 # Configure Flask application
 app = Flask(__name__)
@@ -77,10 +78,12 @@ def genes():
             else:
                 # adds traits to their respective lists
                 if i > 25:
-                    session['traits'][i]['dom_n'] = request.form.get(f'dominant{i}')
-                    session['traits'][i]['dom_s'] = request.form.get(f'symbol_dom{i}') + str(i - 25)
-                    session['traits'][i]['rec_n'] = request.form.get(f'recessive{i}')
-                    session['traits'][i]['rec_s'] = request.form.get(f'symbol_rec{i}') + str(i - 25)
+                    session['traits'].append({
+                            'dom_n': request.form.get(f'dominant{i}'),
+                            'dom_s': request.form.get(f'symbol_dom{i}') + str(i - 25),
+                            'rec_n': request.form.get(f'recessive{i}'),
+                            'rec_s': request.form.get(f'symbol_rec{i}') + str(i - 25)
+                        })
                 else:
                     if not len(session['traits'][0]):
                         session['traits'][0]['dom_n'] = request.form.get('dominant0')
@@ -111,9 +114,28 @@ def parents():
         session['parents'] = [{}]
         for i in range(session['count']):
             # checks which traits are homo dom, homo rec, or hetero for parents
-            session['parents'][i]['p1'] = request.form.get(f'p1t{i}')
-            session['parents'][i]['p2'] = request.form.get(f'p2t{i}')
+            if not len(session['parents'][0]):
+                session['parents'][0]['p1'] = request.form.get('p1t0')
+                session['parents'][0]['p2'] = request.form.get('p2t0')
+            else:
+                session['parents'].append({'p1': request.form.get(f'p1t{i}')})
+                session['parents'].append({'p2': request.form.get(f'p2t{i}')})
 
+        return error("Unimplemented", 501)
+
+@app.route("/calculate", methods=["GET", "POST"])
+def calc():
+    # checks if request method is post or get
+    if request.method == "GET":
+        data = []
+        counter = 0
+        # get chance of genotypes
+        for genotype in session['traits']:
+            data.append(chance(session['parents'][counter]['p1'], session['parents'][counter]['p2'], genotype['dom_s'], genotype['rec_s']))
+            counter += 1
+        # format data for export
+        return render_template("calc.html")
+    else:
         return error("Unimplemented", 501)
 
 # Handle InternalServerError (unexpected error) [from application.py in Finance]
