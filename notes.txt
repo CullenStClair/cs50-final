@@ -8,7 +8,7 @@ mult function(data):
                 if rowN != len(data):
                     thisgene = []
                     for k, v in thisrow.items():
-                        c = value[0] * v[0]
+                        c = (value[0] * v[0]).as_integer_ratio()
                         r = rowN
                         h = key
                         thisgene.append({'chance' : c, 'gene' : r, 'h' : h})
@@ -19,13 +19,19 @@ mult function(data):
         [{'he': [0.5, 'Aa'], 'hr': [0.25, 'aa'], 'hd': [0.25, 'AA']}      
 
 ----- 
-    for i in range(len(row1))
-        if next row has only 1 trait
-            row1[i[1]] * next row chance
-        elif has more than 1
-            chance1 = row1[i[1]] * next row chance[1]
-            chance2 = row1[i[1]] * next row chance[2]
-           chance3
+    buh = []
+    own = 0
+    for row in data:
+        if own == 0:
+            for key, value in row:
+                counter = 0
+                for table in data:
+                    if counter = 0:
+                        countinue
+                    else:
+                        for k, v in table:
+                            
+
 
 
 

@@ -134,7 +134,16 @@ def calc():
             data.append(chance(session['parents'][counter]['p1'], session['parents'][counter]['p2'], genotype['dom_s'], genotype['rec_s']))
             counter += 1
         # format data for export
-        return render_template("calc.html", stuff=mult(data))
+        if len(data) == 1:
+            symbols = []
+            chances = []
+            for value in data[0].items():
+                chances.append(float(value[1][0]).as_integer_ratio())
+                symbols.append(value[1][1])
+            return render_template("calc.html", chance=chances, symbols=symbols)
+        else:
+            return error("Unimplemented", 501)
+
     else:
         return error("Unimplemented", 501)
 

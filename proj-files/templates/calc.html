@@ -7,5 +7,22 @@ Children
 {% endblock %}
 
 {% block main %}
-{{ stuff }}
+    <table>
+        <th>
+            Genotype
+        </th>
+        <th>
+            Chance
+        </th>
+        {% for i in symbols %}
+            <tr>
+                <td>
+                    {{ symbols[i] }}
+                </td>
+                <td>
+                    {{ chance[i] }}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
 {% endblock %}
