@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block meta %}{% endblock %}
+
+{% block title %}
+Children
+{% endblock %}
+
+{% block main %}
+    <table>
+        <tr>
+            <th>
+                Genotype
+            </th>
+            <th>
+                Chance
+            </th>
+        </tr>
+        {% for row in data %}
+            {% for item in row %}  
+                {% for key, value in item.items() %}   
+                    <tr>
+                        <td>
+                            {{ value }}
+                        </td>
+                        <td>
+                            
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        {% endfor %}
+    </table>
+{% endblock %}

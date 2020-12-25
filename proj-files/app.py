@@ -133,11 +133,11 @@ def calc():
         for genotype in session['traits']:
             data.append(chance(session['parents'][counter]['p1'], session['parents'][counter]['p2'], genotype['dom_s'], genotype['rec_s']))
             counter += 1
-        # format data for export
+        # checks for how many genes are input, chooses output based on that.
         if len(data) == 1:
             return render_template("calc.html", data=data)
         else:
-            return error("Unimplemented", 501)
+            return render_template("calc2.html", data=mult(data))
 
     else:
         return error("Unimplemented", 501)

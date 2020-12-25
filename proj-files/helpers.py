@@ -54,16 +54,16 @@ def mult(data):
     rowN = 0
     rownum = 0
     for row in data:
-        for key, value in row.items():
-            for thisrow in data:
-                if rowN != len(data) and rowN != rownum:
-                    thisgene = []
-                    for k, v in thisrow.items():
-                        c = (value[0] * v[0]).as_integer_ratio()
-                        r = rowN
-                        h = value[1] + v[1]
-                        thisgene.append({'chance' : c, 'gene' : r, 'h' : h})
-                    chances.append(thisgene)
-                rowN += 1
+        if rownum == 0:
+            for key, value in row.items():
+                for thisrow in data:
+                    if rowN > 0:
+                        thisgene = []
+                        for k, v in thisrow.items():
+                            c = (value[0] * v[0]).as_integer_ratio()
+                            h = value[1] + v[1]
+                            thisgene.append({'chance' : c, 'h' : h})
+                        chances.append(thisgene)
+                    rowN += 1
         rownum += 1
     return chances
