@@ -135,12 +135,7 @@ def calc():
             counter += 1
         # format data for export
         if len(data) == 1:
-            symbols = []
-            chances = []
-            for value in data[0].items():
-                chances.append(float(value[1][0]).as_integer_ratio())
-                symbols.append(value[1][1])
-            return render_template("calc.html", chance=chances, symbols=symbols)
+            return render_template("calc.html", data=data)
         else:
             return error("Unimplemented", 501)
 

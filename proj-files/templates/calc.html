@@ -8,19 +8,21 @@ Children
 
 {% block main %}
     <table>
-        <th>
-            Genotype
-        </th>
-        <th>
-            Chance
-        </th>
-        {% for i in symbols %}
+        <tr>
+            <th>
+                Genotype
+            </th>
+            <th>
+                Chance
+            </th>
+        </tr>
+        {% for key, value in data[0].items() %}
             <tr>
                 <td>
-                    {{ symbols[i] }}
+                    {{ value[1] }}
                 </td>
                 <td>
-                    {{ chance[i] }}
+                    {{ value[0].as_integer_ratio() }}
                 </td>
             </tr>
         {% endfor %}
