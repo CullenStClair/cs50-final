@@ -1,4 +1,5 @@
-from flask import render_template
+from flask import render_template, session
+from functools import wraps
 from decimal import *
 
 def error(message="Bad request", code=400):
@@ -61,7 +62,7 @@ def mult(data):
                 rowN = 0
                 # itterates through the rows of data again skipping the first to avoid multiplying a gene by itself
                 for thisrow in data:
-                    if rowN > 0:
+                    if rowN > 0 and not rowN > 1:
                         # sets a blank list
                         thisgene = []
                         # iterates over key value pairs for other rows
@@ -76,7 +77,20 @@ def mult(data):
                         chances.append(thisgene)
                     rowN += 1
         rownum += 1
+        # recursion?
+        if len(data) > 2:
+            mult(chances)
         # returns value on second itteration of first loop for efficency
         if rownum > 0:
             return chances
-    
+
+def prob(genes):
+    return genes
+
+def count_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if session.get("count") is None:
+            return error("Bad request: Start at the beginning.", 400)
+        return f(*args, **kwargs)
+    return decorated_function

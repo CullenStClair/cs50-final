@@ -51,13 +51,8 @@ def index():
 
 # Route where user inputs traits
 @app.route("/genes", methods=["GET", "POST"])
+@count_required
 def genes():
-    # check if count is not set (user came here directly)
-    try:
-        session['count']
-    except KeyError:
-        return error("Bad request: Start at the beginning.", 400)
-
     # retrieve count
     count = session['count']
 
@@ -100,14 +95,10 @@ def genes():
         return redirect("/parents")
 
 @app.route("/parents", methods=["GET", "POST"])
+@count_required
 def parents():
     # checks for method
     if request.method == "GET":
-        # check if count is not set (user came here directly)
-        try:
-            session['count']
-        except KeyError:
-            return error("Bad request: Start at the beginning.", 400)
         return render_template("parents.html", count=session['count'])
     else:
         # check notes
@@ -121,9 +112,19 @@ def parents():
                 session['parents'].append({'p1': request.form.get(f'p1t{i}')})
                 session['parents'][i]['p2'] = request.form.get(f'p2t{i}')
 
-        return redirect('/calculate')
+        return redirect('/path')
+
+@app.route("/path", methods=["GET", "POST"])
+@count_required
+def path():
+    # checks if request method is post or get
+    if request.method == "GET":
+        return render_template("path.html")
+    else:
+        return redirect(request.form.get("route"))
 
 @app.route("/calculate", methods=["GET", "POST"])
+@count_required
 def calc():
     # checks if request method is post or get
     if request.method == "GET":

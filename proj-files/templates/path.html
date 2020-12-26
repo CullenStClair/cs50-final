@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block meta %}{% endblock %}
+
+{% block title %}
+Select Path
+{% endblock %}
+
+{% block main %}
+    <!-- main header -->
+    <h1 id="header">Genetics Simulation</h2>
+
+        <form action='/path' method='post' class='form'>
+            <span class="lead">Path:</span>
+            <div style="margin-bottom: 1%;">
+                <select name='route'>
+                    <option value="/calculate">Show all gene pairs</option>
+                    <option value="/specify">Choose traits to combine</option>
+                </select>
+            </div>
+            <button type='submit' class='btn btn-primary'>Go</button>
+        </form>
+{% endblock %}
