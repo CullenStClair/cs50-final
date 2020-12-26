@@ -51,11 +51,11 @@ def chance(p1, p2, dom_s, rec_s):
 
 def mult(data):
     chances = []
-    rowN = 0
     rownum = 0
     for row in data:
         if rownum == 0:
             for key, value in row.items():
+                rowN = 0
                 for thisrow in data:
                     if rowN > 0:
                         thisgene = []
