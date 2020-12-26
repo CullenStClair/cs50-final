@@ -53,17 +53,30 @@ def mult(data):
     chances = []
     rownum = 0
     for row in data:
+        # checks if this is the first iteration (runs code only once below but gets the data from the first row)
         if rownum == 0:
+            # iterates over the key value pairs in the first row of data
             for key, value in row.items():
+                # sets a counter
                 rowN = 0
+                # itterates through the rows of data again skipping the first to avoid multiplying a gene by itself
                 for thisrow in data:
                     if rowN > 0:
+                        # sets a blank list
                         thisgene = []
+                        # iterates over key value pairs for other rows
                         for k, v in thisrow.items():
+                            # calculates chance as a fraction
                             c = (value[0] * v[0]).as_integer_ratio()
+                            # adds symbols together to form the full symbol (i.e: AaSs)
                             h = value[1] + v[1]
+                            # appends these to a dictionary
                             thisgene.append({'chance' : c, 'h' : h})
+                        # appends dictionary to list
                         chances.append(thisgene)
                     rowN += 1
         rownum += 1
-    return chances
+        # returns value on second itteration of first loop for efficency
+        if rownum > 0:
+            return chances
+    
