@@ -64,7 +64,6 @@ def mult(data):
                 for thisrow in data:
                     if rowN > 0 and not rowN > 1:
                         # sets a blank list
-                        thisgene = []
                         # iterates over key value pairs for other rows
                         for k, v in thisrow.items():
                             # calculates chance as a fraction
@@ -72,9 +71,9 @@ def mult(data):
                             # adds symbols together to form the full symbol (i.e: AaSs)
                             h = value[1] + v[1]
                             # appends these to a dictionary
-                            thisgene.append({'chance' : c, 'h' : h})
-                        # appends dictionary to list
-                        chances.append(thisgene)
+                            thisgene={'chance' : c, 'h' : h}
+                            # appends dictionary to list
+                            chances.append(thisgene)
                     rowN += 1
         rownum += 1
         # recursion?

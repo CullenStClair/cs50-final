@@ -2,6 +2,7 @@
 
 from decimal import *
 from tempfile import mkdtemp
+import json
 
 from flask import Flask, redirect, render_template, request, session, url_for
 from flask_session import Session
@@ -140,6 +141,21 @@ def calc():
         else:
             return render_template("calc2.html", data=mult(data))
 
+    else:
+        return error("Unimplemented", 501)
+
+@app.route("/specify", methods=["GET", "POST"])
+@count_required
+def specify():
+    if request.method == 'GET':
+        doms = []
+        recs = []
+        for trait in session['traits'][0]['dom_n']:
+            doms.append(trait)
+        for trait in session['traits'][0]['rec_n']:
+            recs.append(trait)
+        names = sorted(doms + recs)
+        return render_template("specify.html", traits=map(json.dumps, names))
     else:
         return error("Unimplemented", 501)
 
