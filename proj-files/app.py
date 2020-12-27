@@ -2,7 +2,6 @@
 
 from decimal import *
 from tempfile import mkdtemp
-import json
 
 from flask import Flask, redirect, render_template, request, session, url_for
 from flask_session import Session
@@ -155,7 +154,7 @@ def specify():
         for trait in session['traits'][0]['rec_n']:
             recs.append(trait)
         names = sorted(doms + recs)
-        return render_template("specify.html", traits=map(json.dumps, names))
+        return render_template("specify.html", genes=names)
     else:
         return error("Unimplemented", 501)
 

@@ -1,6 +1,8 @@
 {% extends "layout.html" %}
 
-{% block meta %}<script type="text/javascript" src="../specify.js"></script>{% endblock %}
+{% block meta %}
+<script type="text/javascript" src="../static/js/specify.js" defer></script>
+{% endblock %}
 
 {% block title %}
 Combine Genes;
@@ -10,14 +12,12 @@ Combine Genes;
     <!-- main header -->
     <h1 id="header">Genetics Simulation</h1>
 
-    <form onsubmit="return false" class='form'>
+    <form onsubmit='makeform();return false;' class='form'>
         <div style="margin-bottom: 1%;">
-            <input name='num' autofocus autocomplete="off" placeholder='How many genes to combine?' type='number' class="form-control">
+            <input id='num' autofocus autocomplete="off" placeholder='How many genes to combine?' type='number' class="form-control">
         </div>
-        <button name="btn" type="submit" class='btn btn-primary'>Start</button>
+        <button type="submit" class='btn btn-primary'>Start</button>
     </form>
     <div id='buh'></div>
-    <script>
-        document.querySelector("btn").onclick = document.querySelector('num').value, {{ traits|safe }});
-    </script>
+    <button id="traits" disabled hidden value="{{ genes|tojson|safe }}"></button>
 {% endblock %}
