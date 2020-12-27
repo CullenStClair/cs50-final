@@ -53,6 +53,7 @@ def chance(p1, p2, dom_s, rec_s):
 def mult(data):
     chances = []
     rownum = 0
+    con = 0
     count = 0
     for row in data:
         # checks if this is the first iteration (runs code only once below but gets the data from the first row)
@@ -74,7 +75,8 @@ def mult(data):
                                 # adds symbols together to form the full symbol (i.e: AaSs)
                                 h = value[1] + v[1]
                                 # appends these to a dictionary
-                                thisgene.append({'chance' : [c, h]})
+                                thisgene.append({f'chance{con}' : [c, h]})
+                                con += 1
                             # appends dictionary to list
                             chances.append(thisgene)
                         elif len(data) == 2:
@@ -85,25 +87,36 @@ def mult(data):
                                 # adds symbols together to form the full symbol (i.e: AaSs)
                                 h = value[1] + v[1]
                                 # appends these to a dictionary
-                                thisgene.append({'chance' : [c, h]})
+                                thisgene.append({f'chance{con}' : [c, h]})
+                                con += 1
                             # appends dictionary to list
                             chances.append(thisgene)
                     rowN += 1
         rownum += 1
-        # recursion?
-        if len(data) > 2:
-            it2 = []
-            for sub in chances:
-                for chance in sub:
-                    it2.append(chance)
-            count = 0
-            for row in data:
-                if count > 1:
-                    it2.append(row)
-            mult(it2)
+        
         # returns value on second itteration of first loop for efficency
         if rownum > 0:
-            return chances
+            if len(data) == 2:
+                return chances
+            break
+    # recursion?
+    if len(data) > 2:
+        it2 = []
+        it2.append({})
+        for sub in chances:
+            for chance in sub:
+                for key, value in chance.items():
+                    it2[0][key] = value
+        con = 0
+        for row in data:
+            if con > 1:
+                it2.append(row)
+            con += 1
+        return mult(it2)
+
+    
+
+    
 
 def prob(genes):
     return genes
