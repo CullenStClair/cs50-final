@@ -21,10 +21,10 @@ Children
                 {% for key, value in item.items() %}   
                     <tr>
                         <td>
-                            {{ value }}
+                            {{ value[1] }}
                         </td>
                         <td>
-                            
+                            {{ value[0] }}
                         </td>
                     </tr>
                 {% endfor %}

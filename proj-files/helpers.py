@@ -53,6 +53,7 @@ def chance(p1, p2, dom_s, rec_s):
 def mult(data):
     chances = []
     rownum = 0
+    count = 0
     for row in data:
         # checks if this is the first iteration (runs code only once below but gets the data from the first row)
         if rownum == 0:
@@ -64,21 +65,42 @@ def mult(data):
                 for thisrow in data:
                     if rowN > 0 and not rowN > 1:
                         # sets a blank list
-                        # iterates over key value pairs for other rows
-                        for k, v in thisrow.items():
-                            # calculates chance as a fraction
-                            c = (value[0] * v[0]).as_integer_ratio()
-                            # adds symbols together to form the full symbol (i.e: AaSs)
-                            h = value[1] + v[1]
-                            # appends these to a dictionary
-                            thisgene={'chance' : c, 'h' : h}
+                        thisgene=[]
+                        if len(data) > 2:
+                            # iterates over key value pairs for other rows
+                            for k, v in thisrow.items():
+                                # calculates chance as a fraction
+                                c = (value[0] * v[0])
+                                # adds symbols together to form the full symbol (i.e: AaSs)
+                                h = value[1] + v[1]
+                                # appends these to a dictionary
+                                thisgene.append({'chance' : [c, h]})
+                            # appends dictionary to list
+                            chances.append(thisgene)
+                        elif len(data) == 2:
+                            # iterates over key value pairs for other rows
+                            for k, v in thisrow.items():
+                                # calculates chance as a fraction
+                                c = (value[0] * v[0]).as_integer_ratio()
+                                # adds symbols together to form the full symbol (i.e: AaSs)
+                                h = value[1] + v[1]
+                                # appends these to a dictionary
+                                thisgene.append({'chance' : [c, h]})
                             # appends dictionary to list
                             chances.append(thisgene)
                     rowN += 1
         rownum += 1
         # recursion?
         if len(data) > 2:
-            mult(chances)
+            it2 = []
+            for sub in chances:
+                for chance in sub:
+                    it2.append(chance)
+            count = 0
+            for row in data:
+                if count > 1:
+                    it2.append(row)
+            mult(it2)
         # returns value on second itteration of first loop for efficency
         if rownum > 0:
             return chances
