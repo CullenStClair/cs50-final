@@ -1,11 +1,15 @@
-from flask import render_template, session
-from functools import wraps
 from decimal import *
+from functools import wraps
+
+from flask import render_template, session
+
 
 def error(message="Bad request", code=400):
+    """Returns an error page with a message and error code."""
     return render_template("error.html", code=code, message=message), code
 
 def chance(p1, p2, dom_s, rec_s):
+    """Add some descriptive text here."""
     # format symbols
     n1 = dom_s + dom_s
     n2 = dom_s + rec_s
@@ -51,10 +55,10 @@ def chance(p1, p2, dom_s, rec_s):
         return {'hr': [1, n3]}
 
 def mult(data):
+    """Add some descriptive text here."""
     chances = []
     rownum = 0
     con = 0
-    count = 0
     for row in data:
         # checks if this is the first iteration (runs code only once below but gets the data from the first row)
         if rownum == 0:
@@ -116,6 +120,7 @@ def mult(data):
 
     
 def which_traits(traits, gene):
+    """Add some descriptive text here."""
     string = ''
     count = 0
     for i in traits:
@@ -134,9 +139,11 @@ def which_traits(traits, gene):
     
 
 def prob(genes):
+    """Returns the probability of the given (list of) genes occuring together."""
     return genes
 
 def count_required(f):
+    """Decorator which ensures the user starts from the beginning."""
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if session.get("count") is None:
