@@ -15,6 +15,9 @@ Children
             <th>
                 Chance
             </th>
+            <th>
+                Phenotype
+            </th>
         </tr>
         {% for key, value in data[0].items() %}
             <tr>
@@ -23,6 +26,9 @@ Children
                 </td>
                 <td>
                     {{ value[0].as_integer_ratio() }}
+                </td>
+                <td>
+                    {{ function(traits, value[1]) }}
                 </td>
             </tr>
         {% endfor %}
