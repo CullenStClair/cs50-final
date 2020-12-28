@@ -1,6 +1,5 @@
 # Copyright Cullen St. Clair and Kamran Yaghoubian 2020
 
-from decimal import *
 from tempfile import mkdtemp
 
 from flask import Flask, redirect, render_template, request, session, url_for
