@@ -115,7 +115,22 @@ def mult(data):
         return mult(it2)
 
     
-
+def which_traits(traits, gene):
+    string = ''
+    count = 0
+    for i in traits:
+        if i['dom_s'] in gene:
+            if count == 0:
+                string = string + i['dom_n'] 
+            else:
+                string = string + ', ' + i['dom_n'] 
+        elif i['dom_s'] not in gene:
+            if count == 0:
+                string = string + i['rec_n'] 
+            else:
+                string = string + ', ' + i['rec_n'] 
+        count += 1
+    return string
     
 
 def prob(genes):
