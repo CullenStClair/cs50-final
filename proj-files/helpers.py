@@ -9,7 +9,7 @@ def error(message="Bad request", code=400):
     return render_template("error.html", code=code, message=message), code
 
 def chance(p1, p2, dom_s, rec_s):
-    """Add some descriptive text here."""
+    """Gets chance of the offsprint of two parents being hetero, homo dom, or homo rec for each trait."""
     # format symbols
     n1 = dom_s + dom_s
     n2 = dom_s + rec_s
@@ -55,7 +55,7 @@ def chance(p1, p2, dom_s, rec_s):
         return {'hr': [1, n3]}
 
 def mult(data):
-    """Add some descriptive text here."""
+    """multiplies chances"""
     chances = []
     rownum = 0
     con = 0
@@ -120,7 +120,7 @@ def mult(data):
 
     
 def which_traits(traits, gene):
-    """Add some descriptive text here."""
+    """returns phenotypes for any genotype"""
     string = ''
     count = 0
     for i in traits:
