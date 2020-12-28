@@ -16,8 +16,8 @@ Combine Genes;
         <div style="margin-bottom: 1%;">
             <input id='num' autofocus autocomplete="off" placeholder='How many genes to combine?' type='number' class="form-control">
         </div>
-        <button type="submit" class='btn btn-primary'>Start</button>
+        <button type="submit" class='btn btn-primary'>Go</button>
     </form>
     <div id='buh'></div>
-    <button id="traits" disabled hidden value="{{ genes|tojson|safe }}"></button>
+    <button id="traits" disabled hidden value="{{ genes }}"></button>
 {% endblock %}

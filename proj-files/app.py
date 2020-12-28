@@ -2,11 +2,11 @@
 
 from tempfile import mkdtemp
 
-from flask import Flask, redirect, render_template, request, session, url_for
+from flask import Flask, redirect, render_template, request, session
 from flask_session import Session
 from werkzeug.exceptions import (HTTPException, InternalServerError, default_exceptions)
 
-from helpers import *
+from helpers import error, chance, mult, which_traits, prob, count_required
 
 # Configure Flask application
 app = Flask(__name__)
@@ -40,11 +40,11 @@ def index():
             return error("Bad request: Please enter a number of genes.", 400)
         count = int(request.form.get('num'))
         session['count'] = count
-        
+
         # checks for number higher than 0
         if count <= 0:
             return error("Forbidden: Invalid number of genes.", 403)
-        
+
         # pass count to genes page, redirect
         return redirect("/genes")
 
@@ -146,14 +146,14 @@ def calc():
 @count_required
 def specify():
     if request.method == 'GET':
-        doms = []
-        recs = []
-        for trait in session['traits'][0]['dom_n']:
-            doms.append(trait)
-        for trait in session['traits'][0]['rec_n']:
-            recs.append(trait)
-        names = sorted(doms + recs)
-        return render_template("specify.html", genes=names)
+        # initial data format
+        names = []
+        for i in range(len(session['traits'])):
+            names.append(session['traits'][i]['dom_n'])
+            names.append(session['traits'][i]['rec_n'])
+        names = sorted(names)
+        safenames = ','.join(names)
+        return render_template("specify.html", genes=safenames)
     else:
         return error("Unimplemented", 501)
 

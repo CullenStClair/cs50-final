@@ -1,17 +1,14 @@
 function makeform()
 {
-    alert("test1");
-    let num = parseInt(document.querySelector("num").value);
-    alert("test2")
-    let traits = document.querySelector("traits").value;
-    alert("test3");
-    document.getElementById("buh").innerHTML = ``;
+    let num = parseInt(document.querySelector('#num').value, 10);
+    let traits = document.querySelector('#traits').value.split(',');
+    document.querySelector('#buh').innerHTML = '';
     for (i = 0; i < num; i++)
     {
-        document.getElementById("buh").innerHTML += `<select id="s${i}"></select>`;
-        for (n = 0; n < len(traits); n++)
+        document.querySelector("#buh").innerHTML += `<select id="s${i}"></select>`;
+        for (n = 0; n < traits.length; n++)
         {
-            document.getElementById("s"+i).innerHTML += `<option>${traits[n]}</option>`;
+            document.querySelector("#s"+i).innerHTML += `<option>${traits[n]}</option>`;
         }
     }
     return false;
