@@ -138,7 +138,7 @@ def calc():
         if len(data) == 1:
             return render_template("calc.html", data=data)
         else:
-            return render_template("calc2.html", data=mult(data))
+            return render_template("calc2.html", data=mult(data), function=which_traits, traits=session['traits'])
 
     else:
         return error("Unimplemented", 501)
