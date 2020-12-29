@@ -1,15 +1,14 @@
 # Copyright Cullen St. Clair and Kamran Yaghoubian 2020
 
+from ast import literal_eval
 from tempfile import mkdtemp
 
-from flask import Flask, redirect, render_template, request, session, make_response, jsonify
+from flask import Flask, jsonify, redirect, render_template, request, session
 from flask_session import Session
-from werkzeug.exceptions import (HTTPException, InternalServerError, default_exceptions)
-from ast import literal_eval
+from werkzeug.exceptions import (HTTPException, InternalServerError,
+                                 default_exceptions)
 
-from random import randint
-
-from helpers import *
+from helpers import chance, count_required, error, mult, prob, which_traits
 
 # Configure Flask application
 app = Flask(__name__)
@@ -49,12 +48,9 @@ def index():
             return error("Bad request: Please enter a number of genes.", 400)
         count = int(request.form.get('num'))
         session['count'] = count
-        # create temporary user_id (random 10-digit int)
-        session['user_id'] = randint(1000000000, 9999999999)
         # checks for number of at least 2
         if count < 2:
             return error("Forbidden: Invalid number of genes. Minimum of 2.", 403)
-
         # pass count to genes page, redirect
         return redirect("/genes")
 

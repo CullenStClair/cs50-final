@@ -143,21 +143,29 @@ def prob(genes, traits, parents):
     # for each selected trait retrieve this data and find its chance
     probs = []
     for trait in genes:
+        # find which gene the trait is in
+        for t in traits:
+            if t['dom_n'] == trait or t['rec_n'] == trait:
+                traitgene = t
+                break
         # check if trait is in the same gene as another
-        cpy = genes
-        cpy.remove(trait)
-        if trait in cpy:
-            return 0
+        cpy = genes.remove(trait)
+        for t in cpy:
+            for j in traits:
+            if j['dom_n'] == t or j['rec_n'] == t:
+                if j == traitgene:
+                    return 0
+                break
         # sets a counter to 0 for the parents
         count = 0
         # search session for given trait
         for i in traits:
             # find if the named trait was dom or rec and the chance of it showing
             if i['dom_n'] == trait:
-                # get that trait's chance (placeholder '1')
+                # get that trait's chance
                 probs.append(probability_dom(parents, count))
             elif i['rec_n'] == trait:
-                # get that trait's chance (placeholder '1')
+                # get that trait's chance
                 probs.append(probability_rec(parents, count))
             # updates counter by 1
             count += 1
