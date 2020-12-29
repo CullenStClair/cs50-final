@@ -6,6 +6,8 @@ from flask import Flask, redirect, render_template, request, session, jsonify
 from flask_session import Session
 from werkzeug.exceptions import (HTTPException, InternalServerError, default_exceptions)
 
+from random import randint
+
 from helpers import *
 
 # Configure Flask application
@@ -42,7 +44,8 @@ def index():
             return error("Bad request: Please enter a number of genes.", 400)
         count = int(request.form.get('num'))
         session['count'] = count
-
+        # create temporary user_id (random 10-digit int)
+        session['user_id'] = randint(1000000000, 9999999999)
         # checks for number of at least 2
         if count < 2:
             return error("Forbidden: Invalid number of genes. Minimum of 2.", 403)
@@ -159,7 +162,8 @@ def specify():
             names.append(session['traits'][i]['rec_n'])
         names = sorted(names)
         safenames = ','.join(names)
-        return render_template("specify.html", genes=safenames)
+        sessiondat = [session['traits'], session['parents']]
+        return render_template("specify.html", genes=safenames, session=sessiondat)
     else:
         return error("Unimplemented", 501)
 
@@ -167,8 +171,12 @@ def specify():
 @app.route("/specify/prob")
 def giveprob():
     """Server route which returns a JSON with the probability of (args) traits showing together."""
-    args = list(request.args.to_dict(False).keys())[0].split(",")
-    return jsonify(result=prob(args))
+    args = request.args.to_dict(False)
+    traitnames = list(args['traits'][0].split(","))
+    sessiondat = eval(args['session'][0])
+    traits = sessiondat[0]
+    parents = sessiondat[1]
+    return jsonify(result=prob(traitnames, traits, parents))
 
 
 def errorhandler(e):

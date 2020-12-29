@@ -49,6 +49,7 @@ function makeform()
 function calculate()
 {
     let traits = Array(window.numb).fill("");
+    let session = document.querySelector("#session").value;
     // collect chosen traits, check if there is any repeats
     for (i = 0; i < window.numb; i++)
     {
@@ -63,9 +64,14 @@ function calculate()
         traits[i] = option.value;
     }
     traits = traits.toString();
+    req = {
+        traits: traits,
+        session: session
+    };
+    dat = Object.create(req);
     // request probability from server via AJAX/getJSON (jQuery)
     let url = "http://localhost:5000/specify/prob";
-    $.getJSON(url, traits, function(data, textStatus, jqXHR){
+    $.getJSON(url, req, function(data, textStatus, jqXHR){
         window.totalchance = data['result'];
         // show probability as a percent
         document.querySelector("#return").innerHTML = `<hr><span class="lead">The chance of these traits showing together is:<br>${(window.totalchance * 100).toFixed(2)}%</span>`;

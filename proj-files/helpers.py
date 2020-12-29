@@ -144,7 +144,7 @@ def prob(genes):
     probs = []
     for trait in genes:
         # search session for given trait
-        for i in range(session['count']): # this raises keyerror because session is lost upon this server request. will need to send user_id with request
+        for i in range(len(session['traits'])): # this raises keyerror because session is lost upon this server request. will need to send user_id with request
             # find if the named trait was dom or rec and the chance of it showing
             if session['traits'][i]['dom_n'] == trait:
                 # get that trait's chance (placeholder '1')
