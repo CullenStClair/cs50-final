@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block title %}
-Combine Genes;
+Combine Genes
 {% endblock %}
 
 {% block main %}
@@ -15,10 +15,11 @@ Combine Genes;
 
     <form onsubmit='makeform();return false;' class='form'>
         <div style="margin-bottom: 1%;">
-            <input id='combnum' autofocus autocomplete="off" placeholder='How many genes to combine?' type='number' class="form-control">
+            <input id='combnum' autofocus autocomplete="off" placeholder='Number of traits to combine.' type='number' class="form-control">
         </div>
         <button type="submit" class='btn btn-primary'>Start</button>
     </form>
     <div id='buh'></div>
+    <div id='return'></div>
     <button id="traits" disabled hidden value="{{ genes }}"></button>
 {% endblock %}

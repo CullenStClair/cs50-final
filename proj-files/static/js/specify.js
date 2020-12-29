@@ -4,10 +4,10 @@ function makeform()
     window.numb = parseInt(document.querySelector('#combnum').value, 10);
     let traits = document.querySelector('#traits').value.split(',');
     // validate user input
-    if (numb > traits.length || numb < 2 || isNaN(numb))
+    if (numb > traits.length / 2 || numb < 2 || isNaN(numb))
     {
         document.querySelector("#buh").innerHTML = `
-            <span class="lead">Invalid number. Min: 2 Max: ${traits.length}</span>`;
+            <span class="lead">Invalid number. Min: 2 Max: ${traits.length / 2}</span>`;
         return false
     }
     // generate form
@@ -49,19 +49,26 @@ function makeform()
 function calculate()
 {
     let traits = Array(window.numb).fill("");
-    // collect chosen traits
+    // collect chosen traits, check if there is any repeats
     for (i = 0; i < window.numb; i++)
     {
         select = document.getElementById(`s${i}`);
         selected = select.selectedIndex;
         option = select.options[selected];
+        if (traits.includes(option.value))
+        {
+            document.querySelector("#return").innerHTML = `<hr><span class="lead">Traits cannot be repeated.</span>`;
+            return false;
+        }
         traits[i] = option.value;
     }
     traits = traits.toString();
     // request probability from server via AJAX/getJSON (jQuery)
-    let url = "http://127.0.0.1:5000/specify/prob";
+    let url = "http://localhost:5000/specify/prob";
     $.getJSON(url, traits, function(data, textStatus, jqXHR){
-        alert(data);
+        window.totalchance = data['result'];
+        // show probability as a percent
+        document.querySelector("#return").innerHTML = `<hr><span class="lead">The chance of these traits showing together is:<br>${(window.totalchance * 100).toFixed(2)}%</span>`;
     });
     return false;
 }

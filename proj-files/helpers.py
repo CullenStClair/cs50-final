@@ -141,17 +141,17 @@ def which_traits(traits, gene):
 def prob(genes):
     """Returns the probability of the given (list of) genes occuring simultaneously."""
     # for each selected trait retrieve this data and find its chance
-    probs = [] 
+    probs = []
     for trait in genes:
         # search session for given trait
-        for i in range(len(session['traits'])):
+        for i in range(len(session['traits'])): # raises keyerror for some reason <--------------------------------
             # find if the named trait was dom or rec and the chance of it showing
             if session['traits'][i]['dom_n'] == trait:
-                # get that trait's chance
-                probs.append(# the chance of this trait showing)
+                # get that trait's chance (placeholder '1')
+                probs.append(1)
             elif session['traits'][i]['rec_n'] == trait:
-                # get that trait's chance
-                probs.append(# the chance of this trait showing)
+                # get that trait's chance (placeholder '1')
+                probs.append(1)
     # multiply all of the chances together for final chance
     p = 1
     for val in probs:

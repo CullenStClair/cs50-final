@@ -41,9 +41,9 @@ def index():
         count = int(request.form.get('num'))
         session['count'] = count
 
-        # checks for number higher than 0
-        if count <= 0:
-            return error("Forbidden: Invalid number of genes.", 403)
+        # checks for number of at least 2
+        if count < 2:
+            return error("Forbidden: Invalid number of genes. Minimum of 2.", 403)
 
         # pass count to genes page, redirect
         return redirect("/genes")
@@ -138,7 +138,6 @@ def calc():
             return render_template("calc.html", data=data, function=which_traits, traits=session['traits'])
         else:
             return render_template("calc2.html", data=mult(data), function=which_traits, traits=session['traits'])
-
     else:
         return error("Unimplemented", 501)
 
