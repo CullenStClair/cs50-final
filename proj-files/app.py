@@ -116,6 +116,7 @@ def genes():
                     return error("No repeating traits", 403)
                 elif trait['rec_s'] == trait2['rec_s']:
                     return error("No repeating symbols", 403)
+                con2 += 1
             con +=1
         return redirect("/parents")
 
