@@ -79,10 +79,10 @@ function calculate()
         data: dat,
         timeout: 60000,
         success: (data, textStatus, jqXHR) => {
-            let json = $.parseJSON(data);
-            window.totalchance = parseInt(json.data, 10)
+            console.log(data)
+            window.totalchance = 100 * parseFloat(data['data'], 10)
             // show probability as a percent
-            document.querySelector("#return").innerHTML = `<hr><span class="lead">The chance of these traits showing together is:<br>${(window.totalchance * 100).toFixed(2)}%</span>`;
+            document.querySelector("#return").innerHTML = `<hr><span class="lead">The chance of these traits showing together is:<br>${(window.totalchance).toFixed(2)}%</span>`;
         }
     });
     return false;
