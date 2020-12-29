@@ -7,7 +7,9 @@ Children
 {% endblock %}
 
 {% block main %}
-    <table>
+<div><a href='/parents' class='btn btn-primary'>Next gen?</a></div>
+    <table class='table'>
+        <thead class='thead-dark'>
         <tr>
             <th>
                 Genotype
@@ -19,6 +21,7 @@ Children
                 Phenotype
             </th>
         </tr>
+        </thead>
         {% for key, value in data[0].items() %}
             <tr>
                 <td>
