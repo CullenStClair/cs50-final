@@ -143,6 +143,11 @@ def prob(genes, traits, parents):
     # for each selected trait retrieve this data and find its chance
     probs = []
     for trait in genes:
+        # check if trait is in the same gene as another
+        cpy = genes
+        cpy.remove(trait)
+        if trait in cpy:
+            return 0
         # sets a counter to 0 for the parents
         count = 0
         # search session for given trait
