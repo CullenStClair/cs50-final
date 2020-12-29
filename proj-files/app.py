@@ -22,11 +22,13 @@ def after_request(response):
     response.headers["Pragma"] = "no-cache"
     return response
 
+
 # Configure session to use filesystem (instead of signed cookies) [from application.py in Finance]
 app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
+
 
 # Default route
 @app.route("/", methods=["GET", "POST"])
@@ -47,6 +49,7 @@ def index():
 
         # pass count to genes page, redirect
         return redirect("/genes")
+
 
 # Route where user inputs traits
 @app.route("/genes", methods=["GET", "POST"])
@@ -93,6 +96,7 @@ def genes():
                         })
         return redirect("/parents")
 
+
 @app.route("/parents", methods=["GET", "POST"])
 @count_required
 def parents():
@@ -113,6 +117,7 @@ def parents():
 
         return redirect('/path')
 
+
 @app.route("/path", methods=["GET", "POST"])
 @count_required
 def path():
@@ -121,6 +126,7 @@ def path():
         return render_template("path.html")
     else:
         return redirect(request.form.get("route"))
+
 
 @app.route("/calculate", methods=["GET", "POST"])
 @count_required
@@ -141,13 +147,14 @@ def calc():
     else:
         return error("Unimplemented", 501)
 
+
 @app.route("/specify", methods=["GET", "POST"])
 @count_required
 def specify():
     if request.method == 'GET':
         # initial data format
         names = []
-        for i in range(len(session['traits'])):
+        for i in range(session['count']):
             names.append(session['traits'][i]['dom_n'])
             names.append(session['traits'][i]['rec_n'])
         names = sorted(names)
@@ -156,16 +163,20 @@ def specify():
     else:
         return error("Unimplemented", 501)
 
+
 @app.route("/specify/prob")
 def giveprob():
+    """Server route which returns a JSON with the probability of (args) traits showing together."""
     args = list(request.args.to_dict(False).keys())[0].split(",")
     return jsonify(result=prob(args))
 
-# Handle InternalServerError (unexpected error) [from application.py in Finance]
+
 def errorhandler(e):
+    """Handle InternalServerError (unexpected error) [from application.py in Finance]."""
     if not isinstance(e, HTTPException):
         e = InternalServerError()
     return error("Internal Server Error", 500)
+
 
 # Listen for errors [from application.py in Finance]
 for code in default_exceptions:

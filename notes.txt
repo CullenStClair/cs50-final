@@ -30,8 +30,3 @@ mult function(data):
                         countinue
                     else:
                         for k, v in table:
-                            
-
-
-
-
