@@ -138,25 +138,60 @@ def which_traits(traits, gene):
     return string
 
 
-def prob(genes):
+def prob(genes, traits, parents):
     """Returns the probability of the given (list of) genes occuring simultaneously."""
     # for each selected trait retrieve this data and find its chance
     probs = []
     for trait in genes:
+        # sets a counter to 0 for the parents
+        count = 0
         # search session for given trait
-        for i in range(len(session['traits'])): # raises keyerror for some reason <--------------------------------
+        for i in traits: # raises keyerror for some reason <--------------------------------
             # find if the named trait was dom or rec and the chance of it showing
-            if session['traits'][i]['dom_n'] == trait:
+            if i['dom_n'] == trait:
                 # get that trait's chance (placeholder '1')
-                probs.append(1)
-            elif session['traits'][i]['rec_n'] == trait:
+                probs.append(probability_dom(parents, count))
+            elif i['rec_n'] == trait:
                 # get that trait's chance (placeholder '1')
-                probs.append(1)
+                probs.append(probability_rec(parents, count))
+            # updates counter by 1
+            count += 1
     # multiply all of the chances together for final chance
     p = 1
     for val in probs:
         p *= val
+        # returns the final cahnce as a decimal
     return p
+
+def probability_dom(parents, count):
+    """Gets probability of phenotypes for dom traits"""
+    # if either parent is homo_dom
+    if parents[count]['p1'] == 'hd' or parents[count]['p2'] == 'hd':
+        return 1
+    # if both are homo_rec
+    elif parents[count]['p1'] == 'hr' and parents[count]['p2'] == 'hr':
+        return 0
+    # if both are hetero
+    elif parents[count]['p1'] == 'he' and parents[count]['p2'] == 'he':
+        return 0.75
+    # if one is hetero and the other is homo_rec
+    elif (parents[count]['p1'] == 'he' and parents[count]['p2'] == 'hr') or (parents[count]['p1'] == 'hr' and parents[count]['p2'] == 'he'):
+        return 0.5
+
+def probability_rec(parents, count):
+    """Gets probability of phenotypes for rec traits"""
+    # if either parent is homo_dom
+    if parents[count]['p1'] == 'hd' or parents[count]['p2'] == 'hd':
+        return 0
+    # if both are homo_rec
+    elif parents[count]['p1'] == 'hr' and parents[count]['p2'] == 'hr':
+        return 1
+    # if both are hetero
+    elif parents[count]['p1'] == 'he' and parents[count]['p2'] == 'he':
+        return 0.25
+    # if one is hetero and the other is homo_rec
+    elif (parents[count]['p1'] == 'he' and parents[count]['p2'] == 'hr') or (parents[count]['p1'] == 'hr' and parents[count]['p2'] == 'he'):
+        return 0.5
 
 def count_required(f):
     """Decorator which ensures the user starts from the beginning."""
