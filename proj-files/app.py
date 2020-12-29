@@ -102,6 +102,16 @@ def genes():
                             'rec_n': request.form.get(f'recessive{i}'),
                             'rec_s': request.form.get(f'symbol_rec{i}')
                         })
+        for trait in session['traits']:
+            for trait2 in session['traits']:
+                if trait['dom_n'] == trait2['dom_n']:
+                    return error("No repeating traits", 403)
+                elif trait['dom_s'] == trait2['dom_s']:
+                    return error("No repeating symbols", 403)
+                elif trait['rec_n'] == trait2['rec_n']:
+                    return error("No repeating traits", 403)
+                elif trait['rec_s'] == trait2['rec_s']:
+                    return error("No repeating symbols", 403)
         return redirect("/parents")
 
 
