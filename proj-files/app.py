@@ -106,16 +106,16 @@ def genes():
         for trait in session['traits']:
             con2 = 0
             for trait2 in session['traits']:
-                if not con2 > con:
-                    continue
-                elif trait['dom_n'] == trait2['dom_n']:
-                    return error("No repeating traits", 403)
-                elif trait['dom_s'] == trait2['dom_s']:
-                    return error("No repeating symbols", 403)
-                elif trait['rec_n'] == trait2['rec_n']:
-                    return error("No repeating traits", 403)
-                elif trait['rec_s'] == trait2['rec_s']:
-                    return error("No repeating symbols", 403)
+                if con2 > con:
+                    if trait['dom_n'] == trait2['dom_n']:
+                        return error("No repeating traits", 403)
+                    elif trait['dom_s'] == trait2['dom_s']:
+                        return error("No repeating symbols", 403)
+                    elif trait['rec_n'] == trait2['rec_n']:
+                        return error("No repeating traits", 403)
+                    elif trait['rec_s'] == trait2['rec_s']:
+                        return error("No repeating symbols", 403)
+                con2 += 1
             con +=1
         return redirect("/parents")
 
