@@ -9,7 +9,7 @@ def error(message="Bad request", code=400):
     return render_template("error.html", code=code, message=message), code
 
 def chance(p1, p2, dom_s, rec_s):
-    """Gets chance of the offsprint of two parents being hetero, homo dom, or homo rec for each trait."""
+    """Gets chance of the offspring of two parents being hetero, homo dom, or homo rec for each trait."""
     # format symbols
     n1 = dom_s + dom_s
     n2 = dom_s + rec_s
@@ -55,7 +55,7 @@ def chance(p1, p2, dom_s, rec_s):
         return {'hr': [1, n3]}
 
 def mult(data):
-    """multiplies chances"""
+    """Multiplies chances."""
     chances = []
     rownum = 0
     con = 0
@@ -118,9 +118,9 @@ def mult(data):
             con += 1
         return mult(it2)
 
-    
+  
 def which_traits(traits, gene):
-    """returns phenotypes for any genotype"""
+    """Returns phenotypes for any genotype."""
     string = ''
     count = 0
     for i in traits:
@@ -136,11 +136,27 @@ def which_traits(traits, gene):
                 string = string + ', ' + i['rec_n'] 
         count += 1
     return string
-    
+
 
 def prob(genes):
     """Returns the probability of the given (list of) genes occuring simultaneously."""
-    return genes
+    # for each selected trait retrieve this data and find its chance
+    probs = [] 
+    for trait in genes:
+        # search session for given trait
+        for i in range(len(session['traits'])):
+            # find if the named trait was dom or rec and the chance of it showing
+            if session['traits'][i]['dom_n'] == trait:
+                # get that trait's chance
+                probs.append(# the chance of this trait showing)
+            elif session['traits'][i]['rec_n'] == trait:
+                # get that trait's chance
+                probs.append(# the chance of this trait showing)
+    # multiply all of the chances together for final chance
+    p = 1
+    for val in probs:
+        p *= val
+    return p
 
 def count_required(f):
     """Decorator which ensures the user starts from the beginning."""
