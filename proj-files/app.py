@@ -2,11 +2,11 @@
 
 from tempfile import mkdtemp
 
-from flask import Flask, redirect, render_template, request, session
+from flask import Flask, redirect, render_template, request, session, jsonify
 from flask_session import Session
 from werkzeug.exceptions import (HTTPException, InternalServerError, default_exceptions)
 
-from helpers import error, chance, mult, which_traits, prob, count_required
+from helpers import *
 
 # Configure Flask application
 app = Flask(__name__)
@@ -156,6 +156,11 @@ def specify():
         return render_template("specify.html", genes=safenames)
     else:
         return error("Unimplemented", 501)
+
+@app.route("/specify/prob")
+def giveprob():
+    args = list(request.args.to_dict(False).keys())[0].split(",")
+    return jsonify(result=prob(args))
 
 # Handle InternalServerError (unexpected error) [from application.py in Finance]
 def errorhandler(e):

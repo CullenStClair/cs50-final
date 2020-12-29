@@ -139,7 +139,7 @@ def which_traits(traits, gene):
     
 
 def prob(genes):
-    """Returns the probability of the given (list of) genes occuring together."""
+    """Returns the probability of the given (list of) genes occuring simultaneously."""
     return genes
 
 def count_required(f):

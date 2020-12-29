@@ -2,6 +2,7 @@
 
 {% block meta %}
 <script type="text/javascript" src="../static/js/specify.js" defer></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 {% endblock %}
 
 {% block title %}
@@ -14,9 +15,9 @@ Combine Genes;
 
     <form onsubmit='makeform();return false;' class='form'>
         <div style="margin-bottom: 1%;">
-            <input id='num' autofocus autocomplete="off" placeholder='How many genes to combine?' type='number' class="form-control">
+            <input id='combnum' autofocus autocomplete="off" placeholder='How many genes to combine?' type='number' class="form-control">
         </div>
-        <button type="submit" class='btn btn-primary'>Go</button>
+        <button type="submit" class='btn btn-primary'>Start</button>
     </form>
     <div id='buh'></div>
     <button id="traits" disabled hidden value="{{ genes }}"></button>
