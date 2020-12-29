@@ -160,7 +160,7 @@ def prob(genes, traits, parents):
     p = 1
     for val in probs:
         p *= val
-        # returns the final cahnce as a decimal
+        # returns the final chance as a decimal
     return p
 
 def probability_dom(parents, count):

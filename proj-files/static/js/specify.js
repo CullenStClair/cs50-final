@@ -69,12 +69,21 @@ function calculate()
         session: session
     };
     dat = Object.create(req);
-    // request probability from server via AJAX/getJSON (jQuery)
+    // request probability from server via AJAX (jQuery)
     let url = "http://localhost:5000/specify/prob";
-    $.getJSON(url, req, function(data, textStatus, jqXHR){
-        window.totalchance = data['result'];
-        // show probability as a percent
-        document.querySelector("#return").innerHTML = `<hr><span class="lead">The chance of these traits showing together is:<br>${(window.totalchance * 100).toFixed(2)}%</span>`;
+    $.ajax({
+        method: 'GET',
+        url: url,
+        async: false,
+        dataType: 'json',
+        data: dat,
+        timeout: 60000,
+        success: (data, textStatus, jqXHR) => {
+            let json = $.parseJSON(data);
+            window.totalchance = parseInt(json.data, 10)
+            // show probability as a percent
+            document.querySelector("#return").innerHTML = `<hr><span class="lead">The chance of these traits showing together is:<br>${(window.totalchance * 100).toFixed(2)}%</span>`;
+        }
     });
     return false;
 }

@@ -2,9 +2,10 @@
 
 from tempfile import mkdtemp
 
-from flask import Flask, redirect, render_template, request, session, jsonify
+from flask import Flask, redirect, render_template, request, session, make_response, jsonify
 from flask_session import Session
 from werkzeug.exceptions import (HTTPException, InternalServerError, default_exceptions)
+from ast import literal_eval
 
 from random import randint
 
@@ -19,10 +20,14 @@ app.config["TEMPLATES_AUTO_RELOAD"] = True
 # Ensure responses aren't cached [from application.py in Finance]
 @app.after_request
 def after_request(response):
-    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
-    response.headers["Expires"] = 0
-    response.headers["Pragma"] = "no-cache"
-    return response
+    if request.endpoint != 'giveprob':
+        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+        response.headers["Expires"] = 0
+        response.headers["Pragma"] = "no-cache"
+        return response
+    else:
+        response.headers["Access-Control-Allow-Origin"] = "*"
+        return response
 
 
 # Configure session to use filesystem (instead of signed cookies) [from application.py in Finance]
@@ -173,10 +178,11 @@ def giveprob():
     """Server route which returns a JSON with the probability of (args) traits showing together."""
     args = request.args.to_dict(False)
     traitnames = list(args['traits'][0].split(","))
-    sessiondat = eval(args['session'][0])
+    sessiondat = literal_eval(args['session'][0])
     traits = sessiondat[0]
-    parents = sessiondat[1]
-    return jsonify(result=prob(traitnames, traits, parents))
+    parentsdat = sessiondat[1]
+    result = prob(traitnames, traits, parentsdat)
+    return jsonify({"data": f"{result}"})
 
 
 def errorhandler(e):
