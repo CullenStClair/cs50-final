@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block meta %}{% endblock %}
+
+{% block title %}
+Generation
+{% endblock %}
+
+{% block main %}
+    <h1 id="header">Genetics Simulation</h1>
+    <p class="lead">Pick a child from this generation to be one of the parents for the next generation.</p>
+    <form action='/generation' method='post' class='form'>
+        <div style="margin-bottom: 2%;">
+            <select name='select'>
+                {% for row in data %}
+                    {% for item in row %}  
+                        {% for key, value in item.items() %}
+                            <option value='{{ value[1] }}'>{{ value[1] }}</option>  
+                        {% endfor %}
+                    {% endfor %}
+                {% endfor %}
+            </select>
+        </div>
+        <button type='submit' class='btn btn-primary'>Pick other parent</button>
+    </form>
+{% endblock %}

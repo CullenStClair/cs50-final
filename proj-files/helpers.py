@@ -1,5 +1,6 @@
 from decimal import *
 from functools import wraps
+from re import findall
 
 from flask import render_template, session
 
@@ -206,6 +207,15 @@ def probability_rec(parents, count):
     # if one is hetero and the other is homo_rec
     elif (parents[count]['p1'] == 'he' and parents[count]['p2'] == 'hr') or (parents[count]['p1'] == 'hr' and parents[count]['p2'] == 'he'):
         return 0.5
+
+def which_type(string, trait):
+    count = re.findall((f'(?:{trait})+', string))
+    if count == 0:
+        return 'hr'
+    elif count == 1:
+        return 'he'
+    elif count == 2:
+        return 'hd'
 
 def count_required(f):
     """Decorator which ensures the user starts from the beginning."""

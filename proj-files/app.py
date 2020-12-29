@@ -8,7 +8,7 @@ from flask_session import Session
 from werkzeug.exceptions import (HTTPException, InternalServerError,
                                  default_exceptions)
 
-from helpers import chance, count_required, error, mult, prob, which_traits
+from helpers import chance, count_required, error, mult, prob, which_traits, which_type
 
 # Configure Flask application
 app = Flask(__name__)
@@ -194,6 +194,33 @@ def giveprob():
     parentsdat = sessiondat[1]
     result = prob(traitnames, traits, parentsdat)
     return jsonify({"data": f"{result}"})
+
+@app.route("/generation", methods=["GET", "POST"])
+@count_required
+def generation():
+    if request.method == "GET":
+        data = []
+        counter = 0
+        # get chance of genotypes
+        for genotype in session['traits']:
+            data.append(chance(session['parents'][counter]['p1'], session['parents'][counter]['p2'], genotype['dom_s'], genotype['rec_s']))
+            counter += 1
+        return render_template("generation.html", data=mult(data))
+    else:
+        session['string'] = request.form.get('select')
+        return error("Unimplemented", 501)
+
+@app.route("/parents2", methods=["GET", "POST"])
+@count_required
+def gen_parents():
+    if request.method == "GET":
+        session['parents'] = None
+        for trait in session['traits']:
+            if not len(session['parents'][0]):
+                session['parents'][0]['p1'] = which_type(session['string'], trait['dom_s'])
+            else:
+                session['parents'].append(which_type(session['string'], trait['dom_s']))
+        return error("Unimplemented", 501)
 
 
 def errorhandler(e):
