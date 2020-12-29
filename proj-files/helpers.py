@@ -152,10 +152,10 @@ def prob(genes, traits, parents):
         cpy = genes.remove(trait)
         for t in cpy:
             for j in traits:
-            if j['dom_n'] == t or j['rec_n'] == t:
-                if j == traitgene:
-                    return 0
-                break
+                if j['dom_n'] == t or j['rec_n'] == t:
+                    if j == traitgene:
+                        return 0
+                    break
         # sets a counter to 0 for the parents
         count = 0
         # search session for given trait
