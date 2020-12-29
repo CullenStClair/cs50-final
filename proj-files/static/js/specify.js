@@ -77,7 +77,7 @@ function calculate()
         async: false,
         dataType: 'json',
         data: dat,
-        timeout: 60000,
+        timeout: 20000,
         success: (data, textStatus, jqXHR) => {
             console.log(data)
             window.totalchance = 100 * parseFloat(data['data'], 10)

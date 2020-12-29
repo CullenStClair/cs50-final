@@ -149,7 +149,8 @@ def prob(genes, traits, parents):
                 traitgene = t
                 break
         # check if trait is in the same gene as another
-        cpy = genes.remove(trait)
+        cpy = genes.copy()
+        cpy.remove(trait)
         for t in cpy:
             for j in traits:
                 if j['dom_n'] == t or j['rec_n'] == t:
