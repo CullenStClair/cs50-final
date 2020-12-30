@@ -209,7 +209,7 @@ def generation():
 def gen_parents():
     if request.method == "GET":
         session['parents'] = None
-        return render_template("parent2.html")
+        return render_template("parent2.html", count=session['count'])
     else:
         i = 0
         for trait in session['traits']:

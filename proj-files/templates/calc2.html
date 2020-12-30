@@ -7,7 +7,6 @@ Children
 {% endblock %}
 
 {% block main %}
-<div><a href='/generation' class='btn btn-primary'>Next gen?</a></div>
     <table class='table'>
         <thead class='thead-dark'>
         <tr>
@@ -26,18 +25,13 @@ Children
             {% for item in row %}  
                 {% for key, value in item.items() %}   
                     <tr>
-                        <td>
-                            {{ value[1] }}
-                        </td>
-                        <td>
-                            {{ value[0] }}
-                        </td>
-                        <td>
-                            {{ function(traits, value[1]) }}
-                        </td>
+                        <td>{{ value[1] }}</td>
+                        <td><sup>{{ value[0][0] }}</sup>/<sub>{{ value[0][1] }}</sub></td>
+                        <td>{{ function(traits, value[1]) }}</td>
                     </tr>
                 {% endfor %}
             {% endfor %}
         {% endfor %}
     </table>
+    <div><a href='/generation' class='btn btn-primary'>Next generation</a></div>
 {% endblock %}
