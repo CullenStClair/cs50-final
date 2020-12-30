@@ -147,41 +147,35 @@ def path():
         return redirect(request.form.get("route"))
 
 
-@app.route("/calculate", methods=["GET", "POST"])
+@app.route("/calculate", methods=["GET"])
 @count_required
 def calc():
-    # checks if request method is post or get
-    if request.method == "GET":
-        data = []
-        counter = 0
-        # get chance of genotypes
-        for genotype in session['traits']:
-            data.append(chance(session['parents'][counter]['p1'], session['parents'][counter]['p2'], genotype['dom_s'], genotype['rec_s']))
-            counter += 1
-        # checks for how many genes are input, chooses output based on that.
-        if len(data) == 1:
-            return render_template("calc.html", data=data, function=which_traits, traits=session['traits'])
-        else:
-            return render_template("calc2.html", data=mult(data), function=which_traits, traits=session['traits'])
+    data = []
+    counter = 0
+    # get chance of genotypes
+    for genotype in session['traits']:
+        data.append(chance(session['parents'][counter]['p1'], session['parents'][counter]['p2'], genotype['dom_s'], genotype['rec_s']))
+        counter += 1
+    # checks for how many genes are input, chooses output based on that.
+    if len(data) == 1:
+        return render_template("calc.html", data=data, function=which_traits, traits=session['traits'])
     else:
-        return error("Unimplemented", 501)
+        return render_template("calc2.html", data=mult(data), function=which_traits, traits=session['traits'])
 
 
-@app.route("/specify", methods=["GET", "POST"])
+
+@app.route("/specify", methods=["GET"])
 @count_required
 def specify():
-    if request.method == 'GET':
-        # initial data format
-        names = []
-        for i in range(session['count']):
-            names.append(session['traits'][i]['dom_n'])
-            names.append(session['traits'][i]['rec_n'])
-        names = sorted(names)
-        safenames = ','.join(names)
-        sessiondat = [session['traits'], session['parents']]
-        return render_template("specify.html", genes=safenames, session=sessiondat)
-    else:
-        return error("Unimplemented", 501)
+    # initial data format
+    names = []
+    for i in range(session['count']):
+        names.append(session['traits'][i]['dom_n'])
+        names.append(session['traits'][i]['rec_n'])
+    names = sorted(names)
+    safenames = ','.join(names)
+    sessiondat = [session['traits'], session['parents']]
+    return render_template("specify.html", genes=safenames, session=sessiondat)
 
 
 @app.route("/specify/prob")
@@ -195,7 +189,7 @@ def giveprob():
     result = prob(traitnames, traits, parentsdat)
     return jsonify({"data": f"{result}"})
 
-@app.route("/generation", methods=["GET", "POST"])
+@app.route("/generation", methods=["GET"])
 @count_required
 def generation():
     if request.method == "GET":
@@ -208,19 +202,25 @@ def generation():
         return render_template("generation.html", data=mult(data))
     else:
         session['string'] = request.form.get('select')
-        return error("Unimplemented", 501)
+        return redirect('/parents2')
 
 @app.route("/parents2", methods=["GET", "POST"])
 @count_required
 def gen_parents():
     if request.method == "GET":
         session['parents'] = None
+        return render_template("parent2.html")
+    else:
+        i = 0
         for trait in session['traits']:
             if not len(session['parents'][0]):
                 session['parents'][0]['p1'] = which_type(session['string'], trait['dom_s'])
+                session['parents'][0]['p2'] = request.form.get('p2t0')
             else:
-                session['parents'].append(which_type(session['string'], trait['dom_s']))
-        return error("Unimplemented", 501)
+                session['parents'].append({'p1': which_type(session['string'], trait['dom_s'])})
+                session['parents'][i]['p2'] = request.form.get(f'p2t{i}')
+            i += 1
+        return redirect('/path')
 
 
 def errorhandler(e):

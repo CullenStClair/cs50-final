@@ -209,7 +209,7 @@ def probability_rec(parents, count):
         return 0.5
 
 def which_type(string, trait):
-    count = re.findall((f'(?:{trait})+', string))
+    count = string.count(trait)
     if count == 0:
         return 'hr'
     elif count == 1:
