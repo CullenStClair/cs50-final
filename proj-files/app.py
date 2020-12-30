@@ -208,7 +208,7 @@ def generation():
 @count_required
 def gen_parents():
     if request.method == "GET":
-        session['parents'] = None
+        session['parents'] = []
         return render_template("parent2.html", count=session['count'])
     else:
         i = 0
