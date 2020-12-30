@@ -189,7 +189,7 @@ def giveprob():
     result = prob(traitnames, traits, parentsdat)
     return jsonify({"data": f"{result}"})
 
-@app.route("/generation", methods=["GET"])
+@app.route("/generation", methods=["GET", "POST"])
 @count_required
 def generation():
     if request.method == "GET":
