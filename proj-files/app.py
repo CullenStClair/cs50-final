@@ -213,12 +213,8 @@ def gen_parents():
     else:
         i = 0
         for trait in session['traits']:
-            if not len(session['parents'][0]):
-                session['parents'][0]['p1'] = which_type(session['string'], trait['dom_s'])
-                session['parents'][0]['p2'] = request.form.get('p2t0')
-            else:
-                session['parents'].append({'p1': which_type(session['string'], trait['dom_s'])})
-                session['parents'][i]['p2'] = request.form.get(f'p2t{i}')
+            session['parents'].append({'p1': which_type(session['string'], trait['dom_s'])})
+            session['parents'][i]['p2'] = request.form.get(f'p2t{i}')
             i += 1
         return redirect('/path')
 
