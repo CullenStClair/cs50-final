@@ -10,13 +10,13 @@ from werkzeug.exceptions import (HTTPException, InternalServerError,
 
 from helpers import chance, count_required, error, mult, prob, which_traits, which_type
 
-# Configure Flask application
+# configure Flask application
 app = Flask(__name__)
 
-# Ensure templates are auto-reloaded [from application.py in Finance]
+# ensure templates are auto-reloaded
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 
-# Ensure responses aren't cached [from application.py in Finance]
+# ensure responses aren't cached
 @app.after_request
 def after_request(response):
     if request.endpoint != 'giveprob':
@@ -28,15 +28,14 @@ def after_request(response):
         response.headers["Access-Control-Allow-Origin"] = "*"
         return response
 
-
-# Configure session to use filesystem (instead of signed cookies) [from application.py in Finance]
+# configure session to use filesystem (instead of signed cookies)
 app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 
-# Default route
+# default route
 @app.route("/", methods=["GET", "POST"])
 def index():
     # checks if request method is get or post
@@ -55,7 +54,7 @@ def index():
         return redirect("/genes")
 
 
-# Route where user inputs traits
+# route where user inputs traits
 @app.route("/genes", methods=["GET", "POST"])
 @count_required
 def genes():
@@ -70,7 +69,7 @@ def genes():
         # sets blank lists of dominant and recessive traits in session
         session['traits'] = [{}]
 
-        # ensure proper usage of all fields\
+        # ensure proper usage of all fields
         for i in range(count):
             if (not request.form.get(f'dominant{i}')) or (not request.form.get(f'recessive{i}')):
                 return error("Bad request: Missing trait.", 400)
@@ -189,6 +188,7 @@ def giveprob():
     result = prob(traitnames, traits, parentsdat)
     return jsonify({"data": f"{result}"})
 
+
 @app.route("/generation", methods=["GET", "POST"])
 @count_required
 def generation():
@@ -203,6 +203,7 @@ def generation():
     else:
         session['string'] = request.form.get('select')
         return redirect('/parents2')
+
 
 @app.route("/parents2", methods=["GET", "POST"])
 @count_required
@@ -220,12 +221,12 @@ def gen_parents():
 
 
 def errorhandler(e):
-    """Handle InternalServerError (unexpected error) [from application.py in Finance]."""
+    """Handle InternalServerError (unexpected error)."""
     if not isinstance(e, HTTPException):
         e = InternalServerError()
     return error("Internal Server Error", 500)
 
 
-# Listen for errors [from application.py in Finance]
+# listen for errors
 for code in default_exceptions:
     app.errorhandler(code)(errorhandler)
