@@ -5,10 +5,10 @@ from tempfile import mkdtemp
 
 from flask import Flask, jsonify, redirect, render_template, request, session
 from flask_session import Session
+from helpers import (chance, count_required, error, mult, prob, which_traits,
+                     which_type)
 from werkzeug.exceptions import (HTTPException, InternalServerError,
                                  default_exceptions)
-
-from helpers import chance, count_required, error, mult, prob, which_traits, which_type
 
 # configure Flask application
 app = Flask(__name__)
@@ -16,10 +16,11 @@ app = Flask(__name__)
 # ensure templates are auto-reloaded
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 
-# ensure responses aren't cached
+
 @app.after_request
 def after_request(response):
     if request.endpoint != 'giveprob':
+        # ensure responses aren't cached
         response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
         response.headers["Expires"] = 0
         response.headers["Pragma"] = "no-cache"
@@ -27,6 +28,7 @@ def after_request(response):
     else:
         response.headers["Access-Control-Allow-Origin"] = "*"
         return response
+
 
 # configure session to use filesystem (instead of signed cookies)
 app.config["SESSION_FILE_DIR"] = mkdtemp()
@@ -79,17 +81,21 @@ def genes():
                 # adds traits to their respective lists
                 if i > 25:
                     session['traits'].append({
-                            'dom_n': request.form.get(f'dominant{i}'),
-                            'dom_s': request.form.get(f'symbol_dom{i}') + str(i - 25),
-                            'rec_n': request.form.get(f'recessive{i}'),
-                            'rec_s': request.form.get(f'symbol_rec{i}') + str(i - 25)
-                        })
+                        'dom_n': request.form.get(f'dominant{i}'),
+                        'dom_s': request.form.get(f'symbol_dom{i}') + str(i - 25),
+                        'rec_n': request.form.get(f'recessive{i}'),
+                        'rec_s': request.form.get(f'symbol_rec{i}') + str(i - 25)
+                    })
                 else:
                     if not len(session['traits'][0]):
-                        session['traits'][0]['dom_n'] = request.form.get('dominant0')
-                        session['traits'][0]['dom_s'] = request.form.get('symbol_dom0')
-                        session['traits'][0]['rec_n'] = request.form.get('recessive0')
-                        session['traits'][0]['rec_s'] = request.form.get('symbol_rec0')
+                        session['traits'][0]['dom_n'] = request.form.get(
+                            'dominant0')
+                        session['traits'][0]['dom_s'] = request.form.get(
+                            'symbol_dom0')
+                        session['traits'][0]['rec_n'] = request.form.get(
+                            'recessive0')
+                        session['traits'][0]['rec_s'] = request.form.get(
+                            'symbol_rec0')
                     else:
                         session['traits'].append({
                             'dom_n': request.form.get(f'dominant{i}'),
@@ -111,7 +117,7 @@ def genes():
                     elif trait['rec_s'] == trait2['rec_s']:
                         return error("No repeating symbols", 403)
                 con2 += 1
-            con +=1
+            con += 1
         return redirect("/parents")
 
 
@@ -153,14 +159,14 @@ def calc():
     counter = 0
     # get chance of genotypes
     for genotype in session['traits']:
-        data.append(chance(session['parents'][counter]['p1'], session['parents'][counter]['p2'], genotype['dom_s'], genotype['rec_s']))
+        data.append(chance(session['parents'][counter]['p1'], session['parents']
+                    [counter]['p2'], genotype['dom_s'], genotype['rec_s']))
         counter += 1
     # checks for how many genes are input, chooses output based on that.
     if len(data) == 1:
         return render_template("calc.html", data=data, function=which_traits, traits=session['traits'])
     else:
         return render_template("calc2.html", data=mult(data), function=which_traits, traits=session['traits'])
-
 
 
 @app.route("/specify", methods=["GET"])
@@ -172,20 +178,20 @@ def specify():
         names.append(session['traits'][i]['dom_n'])
         names.append(session['traits'][i]['rec_n'])
     names = sorted(names)
-    safenames = ','.join(names)
-    sessiondat = [session['traits'], session['parents']]
-    return render_template("specify.html", genes=safenames, session=sessiondat)
+    safe_names = ','.join(names)
+    session_data = [session['traits'], session['parents']]
+    return render_template("specify.html", genes=safe_names, session=session_data)
 
 
 @app.route("/specify/prob")
 def giveprob():
     """Server route which returns a JSON with the probability of (args) traits showing together."""
     args = request.args.to_dict(False)
-    traitnames = list(args['traits'][0].split(","))
-    sessiondat = literal_eval(args['session'][0])
-    traits = sessiondat[0]
-    parentsdat = sessiondat[1]
-    result = prob(traitnames, traits, parentsdat)
+    trait_names = list(args['traits'][0].split(","))
+    session_dat = literal_eval(args['session'][0])
+    traits = session_dat[0]
+    parents_data = session_dat[1]
+    result = prob(trait_names, traits, parents_data)
     return jsonify({"data": f"{result}"})
 
 
@@ -197,7 +203,8 @@ def generation():
         counter = 0
         # get chance of genotypes
         for genotype in session['traits']:
-            data.append(chance(session['parents'][counter]['p1'], session['parents'][counter]['p2'], genotype['dom_s'], genotype['rec_s']))
+            data.append(chance(session['parents'][counter]['p1'], session['parents']
+                        [counter]['p2'], genotype['dom_s'], genotype['rec_s']))
             counter += 1
         return render_template("generation.html", data=mult(data))
     else:
@@ -214,7 +221,8 @@ def gen_parents():
     else:
         i = 0
         for trait in session['traits']:
-            session['parents'].append({'p1': which_type(session['string'], trait['dom_s'])})
+            session['parents'].append(
+                {'p1': which_type(session['string'], trait['dom_s'])})
             session['parents'][i]['p2'] = request.form.get(f'p2t{i}')
             i += 1
         return redirect('/path')
