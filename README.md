@@ -8,7 +8,7 @@
 
 ***
 
-This web application allows the user to input any number of genes, as well as dominant and recessive traits for each gene along with a symbol they would like to represent the allele.  
+This web application (localhost only) allows the user to input any number of genes, as well as dominant and recessive traits for each gene along with a symbol they would like to represent the allele.  
 After the user selects the parents' genotypes, they can choose to calculate all possible offspring's genotypes and phenotypes or to calculate for an offspring with a specific phenotype.  
 They are then able to select the genotype of one child from the current generation to be a parent in the next, at which point they also select the genotypes of the other parent for each trait.  
 This generational process can be repeated indefinitely.
